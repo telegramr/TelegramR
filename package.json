@@ -1,0 +1,46 @@
+{
+  "name": "telegramr",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "android-signkey": "keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.android.js --bundle-output ./android/app/src/main/assets/index.android.bundle --sourcemap-output ./android/app/src/main/assets/index.android.map --assets-dest ./android/app/src/main/res/",
+    "android-release": "cd android && gradlew assembleRelease",
+    "ios-bundle": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.ios.jsbundle --assets-dest ./ios/bundle",
+    "reset-cache": "react-native start --reset-cache",
+    "fix-watchman": "watchman watch-del-all && rm -rf node_modules && npm install && rm -fr $TMPDIR/react-*",
+    "build-svg": "node ./src/static/svg.js"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "16.8.3",
+    "react-native": "0.59.5",
+    "react-native-gesture-handler": "^1.2.1",
+    "react-native-modal": "^10.0.0",
+    "react-native-popup-dialog": "^0.18.2",
+    "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-svg": "^9.4.0",
+    "react-native-svg-uri": "^1.2.3",
+    "react-native-webview": "^5.8.1",
+    "react-navigation": "^3.9.1",
+    "react-redux": "^7.0.3",
+    "redux": "^4.0.1",
+    "redux-chunk": "^1.0.11",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
+    "metro-react-native-babel-preset": "^0.54.0",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
