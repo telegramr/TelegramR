@@ -21,6 +21,9 @@ import DrawerMenuPage from '../pages/DrawerMenu'
 import ChatListPage from '../pages/ChatList'
 import ChatPage from '../pages/Chat'
 import SettingPage from '../pages/Drawers/Setting'
+import UserPage from '../pages/User'
+import GroupPage from '../pages/Group'
+import GroupDetailsPage from '../pages/GroupDetails'
 
 
 export const DrawerMenuStack = createDrawerNavigator({
@@ -65,6 +68,9 @@ const AppContainer = createStackNavigator({
   Login: { screen: LoginPage },
   ChatList: { screen: ChatListPage },
   Chat: { screen: ChatPage },
+  User: { screen: UserPage },
+  Group: { screen: GroupPage },
+  GroupDetails: { screen: GroupDetailsPage },
   DrawerMenuStack
 }, {
   navigationOptions: {
