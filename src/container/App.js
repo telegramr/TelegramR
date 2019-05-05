@@ -79,7 +79,7 @@ const AppContainer = createStackNavigator({
   //   screenInterpolator: CardStackStyleInterpolator.forHorizontal
   // })),
   headerMode: 'none',
-  initialRouteName: 'DrawerMenuStack',
+  initialRouteName: 'Chat',
   mode: Platform.OS === 'ios' ? 'modal' : 'card',
 })
 

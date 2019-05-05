@@ -7,10 +7,7 @@ import {
   TouchableOpacity,
   BackHandler,
   FlatList,
-  Button,
   Alert,
-  Image,
-  ScrollView
 } from 'react-native';
 import S from '../public/style'
 import Svg from '../lib/svg'

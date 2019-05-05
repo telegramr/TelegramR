@@ -12,7 +12,7 @@ const initialState = {
       out: true,
       uname: 'Beats0',
       avatar: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4',
-      message: '（￣▽￣）',
+      message: '（￣▽￣）（￣▽￣）（￣▽￣）（￣▽￣）（￣▽￣）',
       date: '12: 47'
     },
     {
@@ -197,7 +197,7 @@ export default function chat(state = initialState, action) {
         ...state,
         isRefresh: action.isRefresh
       }
-    case types.GO_TO_END:
+    case types.SET_IS_END:
       return {
         ...state,
         isEnd: action.isEnd

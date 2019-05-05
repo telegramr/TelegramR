@@ -164,8 +164,13 @@ export default StyleSheet.create({
     height: 2,
     backgroundColor: '#991010',
   },
-  chatBubbles: {
+  chatBubblesLeft: {
     borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10
+  },
+  chatBubblesRight: {
+    borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },

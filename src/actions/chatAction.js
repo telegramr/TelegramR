@@ -50,9 +50,9 @@ export function removeChatMessage(messageId: string) {
   }
 }
 
-export function goToEnd(isEnd: boolean) {
+export function setIsEnd(isEnd: boolean) {
   return {
-    type: types.GO_TO_END,
+    type: types.SET_IS_END,
     isEnd
   }
 }

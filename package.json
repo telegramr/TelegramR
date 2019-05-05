@@ -16,6 +16,7 @@
     "build-svg": "node ./src/static/svg.js"
   },
   "dependencies": {
+    "dayjs": "^1.8.13",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.5",

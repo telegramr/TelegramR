@@ -4,65 +4,59 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
-import { color } from '../utils';
+import PropTypes from "prop-types";
 
 export default class Label extends PureComponent {
+  static propTypes = {
+    point: PropTypes.number,
+    mr: PropTypes.number
+  }
+
   render() {
+    const {point, mr = 5} = this.props
+    const lv = parseInt(point / 1000)
     return (
-      <View>
-        <Text />
+      <View style={[styles.labelContainer, styles[`level${lv}`], {marginRight: mr}]}>
+        <Text style={styles.labelSize}>等级{lv}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  level1: {
-    borderColor: '#969696'
+  labelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    borderRadius: 2,
   },
-  level1label: {
-    borderColor: '#969696'
+  labelSize: {
+    color: '#fff',
+    fontSize: 12
+  },
+  level1: {
+    backgroundColor: '#969696'
   },
   level2: {
-    borderColor: '#61c05a'
-  },
-  level2label: {
-    borderColor: '#61c05a'
+    backgroundColor: '#61c05a'
   },
   level3: {
-    borderColor: '#61decb'
-  },
-  level3label: {
-    borderColor: '#61decb'
+    backgroundColor: '#61decb'
   },
   level4: {
-    borderColor: '#5896de'
-  },
-  level4label: {
-    borderColor: '#5896de'
+    backgroundColor: '#5896de'
   },
   level5: {
-    borderColor: '#a068f1'
-  },
-  level5label: {
-    borderColor: '#a068f1'
+    backgroundColor: '#a068f1'
   },
   level6: {
-    borderColor: '#f6be18'
-  },
-  level6label: {
-    borderColor: '#f6be18'
+    backgroundColor: '#f6be18'
   },
   level7: {
-    borderColor: '#ff86b2'
-  },
-  level7label: {
-    borderColor: '#ff86b2'
+    backgroundColor: '#ff86b2'
   },
   level8: {
-    borderColor: '#ee0b10'
-  },
-  level8label: {
-    borderColor: '#ee0b10'
+    backgroundColor: '#ee0b10'
   },
 })

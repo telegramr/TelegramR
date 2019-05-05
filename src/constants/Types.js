@@ -21,6 +21,6 @@ export const SEND_ERROR = 'SEND_ERROR'
 export const ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE'
 export const REMOVE_CHAT_MESSAGE = 'REMOVE_CHAT_MESSAGE'
 export const SET_REFRESH_STATUS = 'SET_REFRESH_STATUS'
-export const GO_TO_END = 'GO_TO_END'
+export const SET_IS_END = 'SET_IS_END'
 
 

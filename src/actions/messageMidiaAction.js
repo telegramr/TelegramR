@@ -1,7 +1,8 @@
 'use strict';
 
 import * as types from '../constants/Types';
-import {addChatMessage, goToEnd} from "./chatAction";
+import { addChatMessage, setIsEnd } from "./chatAction";
+
 
 export function setMessageStr(messageStr) {
   return {
@@ -20,7 +21,7 @@ export function setMessageMedia(currentMessageMedia) {
 
 export function sendMessage() {
   return (dispatch, getState) => {
-    const {messageStr} = getState().messageMedia;
+    const { messageStr } = getState().messageMedia;
     // dispatch(sendingMessage());
     // TODO: 模拟用户登录
     const result = fetch('https://www.baidu.com/')
@@ -59,7 +60,7 @@ function sendSuccess(messageStr) {
   return dispatch => {
     dispatch(setMessageStr(''))
     dispatch(addChatMessage(newMessageObj))
-    dispatch(goToEnd(true))
+    dispatch(setIsEnd(true))
   }
 }
 

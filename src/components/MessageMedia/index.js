@@ -1,14 +1,14 @@
 /**
  * https://core.telegram.org/constructor/message
  * @param   id        {int}  Message id
- * @param   from_id  {int}  Message sender
- * @param   to_id    {Peer}  Message recipient
- * @param   out      {Bool}  If true, message was sent by the current user
+ * @param   from_id   {int}  Message sender
+ * @param   to_id     {Peer}  Message recipient
+ * @param   out       {Bool}  If true, message was sent by the current user
  * @param   unread    {Bool}  Read status
  * @param   date      {int}  Date created
- * @param   message  {string}  Message text
- * @param   media    {MessageMedia}  Media content
- * @param   flags    {int}  Flag mask for the message:
+ * @param   message   {string}  Message text
+ * @param   media     {MessageMedia}  Media content
+ * @param   flags     {int}  Flag mask for the message:
  * @param   flags & 0x1 - message is unread (moved here from unread)
  * @param   flags & 0x2 - message was sent by the current user (moved here from out)
  Parameter was added in Layer 17.
@@ -34,25 +34,25 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
-  TouchableWithoutFeedback,
   Alert,
   FlatList,
   Image,
   TextInput,
   Animated,
-  Keyboard
+  Keyboard,
 } from 'react-native';
-import S from '../../public/style'
-import Svg from "../../lib/svg";
-import { color, screen } from '../../utils'
 import Modal from 'react-native-modal'
-import {TouchableCross} from '../../components'
 import MessageMediaAudio from './MessageMediaAudio'
 import MessageMediaSticker from './MessageMediaSticker'
 import MessageMediaPhoto from './MessageMediaPhoto'
+import S from '../../public/style'
+import Svg from "../../lib/svg";
+import { color, screen } from '../../utils'
+import { TouchableCross } from '../../components'
 import { connect } from "react-redux";
 import * as messageMediaAction from "../../actions/messageMidiaAction";
 import messageMedia from "../../reducers/messageMediaReducer";
+
 
 class MessageMedia extends Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class MessageMedia extends Component {
   }
 
   handleShowMessageMediaModal = (currentMessageMediaName) => {
-    const {showMessageModalFn, setMessageMedia} = this.props
+    const { showMessageModalFn, setMessageMedia } = this.props
     showMessageModalFn()
     setMessageMedia(currentMessageMediaName)
     Keyboard.dismiss()
@@ -81,7 +81,7 @@ class MessageMedia extends Component {
   }
 
   handleCloseMessageMediaModal = () => {
-    const {closeMessageModalFn} = this.props
+    const { closeMessageModalFn } = this.props
     closeMessageModalFn()
     this.refs.messageInput.focus()
     // Animated.timing(
@@ -94,7 +94,7 @@ class MessageMedia extends Component {
   }
 
   handleSetCurrentMessageMedia = (currentMessageMediaName) => {
-    const {currentMessageMedia, closeMessageModalFn} = this.props;
+    const { currentMessageMedia, closeMessageModalFn } = this.props;
     if (currentMessageMedia === currentMessageMediaName) {
       closeMessageModalFn()
     } else {
@@ -103,7 +103,7 @@ class MessageMedia extends Component {
   }
 
   renderCurrentMessageMedia = () => {
-    const { currentMessageMedia } = this.props;   
+    const { currentMessageMedia } = this.props;
     switch (currentMessageMedia) {
       case '':
         return null
@@ -167,15 +167,15 @@ class MessageMedia extends Component {
             placeholder="输入消息"
             placeholderTextColor={ color.gray }
             onChangeText={ setMessageStr }
-            onFocus={this.handleCloseMessageMediaModal }
+            onFocus={ this.handleCloseMessageMediaModal }
             onTouchStart={ this.handleCloseMessageMediaModal }
             value={ messageStr }
-            multiline = {true}
-            numberOfLines = {4}
+            multiline={ true }
+            numberOfLines={ 4 }
           />
           <TouchableCross
             onPress={ sendMessage }
-            feed={true}
+            feed={ true }
             disabled={ messageStr === '' }
             background={ TouchableNativeFeedback.Ripple(color.border, false) }
           >
@@ -265,8 +265,8 @@ export default connect(
     messageStr: state.messageMedia.messageStr,
     showMessageModal: state.messageMedia.showMessageModal,
     currentMessageMedia: state.messageMedia.currentMessageMedia,
-    error:  state.messageMedia.error,
-    errorInfo:  state.messageMedia.errorInfo
+    error: state.messageMedia.error,
+    errorInfo: state.messageMedia.errorInfo
   }),
   (dispatch) => ({
     setMessageStr: (str) => dispatch(messageMediaAction.setMessageStr(str)),
