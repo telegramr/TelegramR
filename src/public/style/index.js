@@ -83,8 +83,10 @@ export default StyleSheet.create({
   },
   spacing: {
     width,
-    height: 15,
-    backgroundColor: '#f1f1f1'
+    height: 9,
+    backgroundColor: '#f1f1f1',
+    borderBottomWidth: screen.onePixel,
+    borderBottomColor: '#e0e0e0'
   },
   border: {
     borderBottomWidth: 1,
@@ -195,4 +197,9 @@ export default StyleSheet.create({
     borderTopColor: color.borderOne,
     backgroundColor: color.white
   },
+  borderOne: {
+    width: screen.width,
+    height: screen.onePixel,
+    backgroundColor: color.borderOne
+  }
 });

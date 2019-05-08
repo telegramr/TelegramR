@@ -5,7 +5,9 @@ import ImageAuto from './ImageAuto'
 import ImageBgAuto from './ImageBgAuto'
 import Label from './Label'
 import * as TextTool from './TextTool';
+import Separator from './Separator'
 import TouchableCross from './TouchableCross'
+import StatusBars from './StatusBars'
 export {
   Avatar,
   Badge,
@@ -14,5 +16,7 @@ export {
   ImageBgAuto,
   Label,
   TextTool,
-  TouchableCross
+  Separator,
+  TouchableCross,
+  StatusBars
 }

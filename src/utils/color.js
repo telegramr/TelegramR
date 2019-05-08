@@ -7,8 +7,10 @@ export default {
   border: '#e0e0e0',
   borderOne: '#A7A7A7',
   gray: '#828385',
+  grayLittle: '#f7f7f7',
   grayLight: '#f3f4f5',
   blue: '#0c73c2',
+  link: '#1da1f2',
   blueLight: '#26c3fb',
   blackCover: 'rgba(0, 0, 0, 0.3)',
 }

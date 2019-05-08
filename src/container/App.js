@@ -4,7 +4,8 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Platform
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
 import {
   SafeAreaView,
@@ -22,7 +23,7 @@ import ChatListPage from '../pages/ChatList'
 import ChatPage from '../pages/Chat'
 import SettingPage from '../pages/Drawers/Setting'
 import UserPage from '../pages/User'
-import GroupPage from '../pages/Group'
+import GroupsPage from '../pages/Groups'
 import GroupDetailsPage from '../pages/GroupDetails'
 
 
@@ -53,10 +54,13 @@ export const DrawerMenuStack = createDrawerNavigator({
     contentComponent: (props) => (
       <ScrollView style={ { backgroundColor: '#fff', flex: 1 } }>
         <SafeAreaView forceInset={ { top: 'always', horizontal: 'never' } }>
-          <View style={ styles.userContainer }>
+          <TouchableOpacity  onPress={() => props.navigation.navigate('User')}
+                             activeOpacity={1}
+                             focusedOpacity={1}
+                             style={ styles.userContainer }>
             <Avatar size={ 60 }/>
             <Text style={ styles.uname }>TelegramR</Text>
-          </View>
+          </TouchableOpacity>
           <DrawerItems { ...props } />
         </SafeAreaView>
       </ScrollView>
@@ -69,7 +73,7 @@ const AppContainer = createStackNavigator({
   ChatList: { screen: ChatListPage },
   Chat: { screen: ChatPage },
   User: { screen: UserPage },
-  Group: { screen: GroupPage },
+  Groups: { screen: GroupsPage },
   GroupDetails: { screen: GroupDetailsPage },
   DrawerMenuStack
 }, {
@@ -85,8 +89,8 @@ const AppContainer = createStackNavigator({
   //   screenInterpolator: CardStackStyleInterpolator.forHorizontal
   // })),
   headerMode: 'none',
-  initialRouteName: 'Chat',
-  mode: Platform.OS === 'ios' ? 'modal' : 'card',
+  initialRouteName: 'DrawerMenuStack',
+  mode: 'card',
 })
 
 const styles = StyleSheet.create({

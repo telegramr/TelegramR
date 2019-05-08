@@ -8,14 +8,15 @@ import {
   BackHandler,
   FlatList,
   Alert,
+  StatusBar,
 } from 'react-native';
 import S from '../public/style'
 import Svg from '../lib/svg'
 import { color, screen } from '../utils'
-import { TextTool, Avatar, Badge, TouchableCross, Btn } from '../components'
-import { connect } from 'react-redux'; // 引入connect函数
-import * as loginAction from '../actions/loginAction';// 导入action方法
-import { NavigationActions, StackActions } from 'react-navigation';
+import { TextTool, Avatar, Badge, TouchableCross, Btn ,StatusBars} from '../components'
+import { connect } from 'react-redux';
+import * as loginAction from '../actions/loginAction';
+import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
 
 const { H4, Normal } = TextTool;
 
@@ -165,10 +166,16 @@ class ChatList extends Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <SafeAreaView style={ styles.container }>
+        {/*<StatusBar*/}
+        {/*  translucent*/}
+        {/*  barStyle="light-content"*/}
+        {/*  backgroundColor="rgba(0, 0, 0, 0.255)"*/}
+        {/*/>*/}
+        <StatusBars />
         { this.renderHeaderBar() }
         { this.renderChatList() }
-      </View>
+      </SafeAreaView>
     )
   }
 }

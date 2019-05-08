@@ -36,7 +36,7 @@ export default class GroupDetails extends Component {
     const groups = [
       {
         uri: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4',
-        title: '倍多客科技有限公司',
+        title: '摇曳百合',
         number: '12345678'
       }
     ]
