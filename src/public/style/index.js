@@ -89,8 +89,8 @@ export default StyleSheet.create({
     borderBottomColor: '#e0e0e0'
   },
   border: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee'
+    borderBottomWidth: screen.onePixel,
+    borderBottomColor: color.border
   },
   noBorder: {
     borderWidth: 0,
@@ -201,5 +201,9 @@ export default StyleSheet.create({
     width: screen.width,
     height: screen.onePixel,
     backgroundColor: color.borderOne
+  },
+  cell: {
+    backgroundColor: '#fff',
+    padding: 10
   }
 });

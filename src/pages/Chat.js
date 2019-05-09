@@ -10,12 +10,12 @@ import {
   FlatList,
 } from 'react-native';
 import S from '../public/style'
-import { TextTool, Avatar, Btn, Label, Badge } from '../components'
+import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from '../components'
 import { connect } from 'react-redux';
 import * as loginAction from '../actions/loginAction';
 import * as messageMediaAction from '../actions/messageMidiaAction'
 import * as chatAction from '../actions/chatAction'
-import { NavigationActions, StackActions } from 'react-navigation';
+import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
 import { screen, color } from "../utils";
 import Svg from "../lib/svg";
 import MessageContainer from '../components/MessageMedia'
@@ -86,17 +86,17 @@ class Chat extends Component {
             <Svg icon="arrowleft" size="22"/>
           </Btn>
         </View>
-        <TouchableOpacity activeOpacity={ 1 }
-                          focusedOpacity={ 1 }
-                          style={ [S.flexSA, S.flexStart, S.flexAIC, { width: screen.width - 100, marginLeft: 46 }] }>
+        <TouchableCross onPress={ () => this.navigateTo('GroupDetail') }
+                        noActive={ true }
+                        style={ [S.flexSA, S.flexStart, S.flexAIC, { width: screen.width - 100, marginLeft: 46 }] }>
           <Avatar uri={ avatar } mr={ 10 }/>
           <View style={ [S.flexCol] }>
             <H4 title={ title } color={ color.white }/>
             <H4 title={ `1999人在线` } color={ color.white }/>
           </View>
-        </TouchableOpacity>
+        </TouchableCross>
         <View tyle={ [S.flex, S.flexCenter, { width: 30, height: 30, position: 'absolute', right: 8 }] }>
-          <Btn circular={ true } onPress={ () => Alert.alert('search') }>
+          <Btn circular={ true } onPress={ () => this.navigateTo('GroupDetail') }>
             <Svg icon="team" size="25"/>
           </Btn>
         </View>
@@ -208,7 +208,8 @@ class Chat extends Component {
                 <H4 title={ item.message }/>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={ { marginLeft: 5 } }>
+            <TouchableOpacity activeOpacity={ 1 }
+                              focusedOpacity={ 1 } style={ { marginLeft: 5 } }>
               <Avatar uri={ item.avatar }/>
             </TouchableOpacity>
           </View>
@@ -242,12 +243,13 @@ class Chat extends Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <SafeAreaView style={ styles.container }>
+        <StatusBars/>
         { this.renderHeaderBar() }
         { this.renderNotice() }
         { this.renderList() }
         <MessageContainer/>
-      </View>
+      </SafeAreaView>
     )
   }
 }

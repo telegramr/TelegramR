@@ -16,14 +16,26 @@ export default class TouchableCross extends Component {
       PropTypes.array
     ]),
     background: PropTypes.object,
-    feed: PropTypes.bool
+    feed: PropTypes.bool,
+    noActive: PropTypes.bool
   }
 
   disableFunc = () => {
   }
 
   render() {
-    const { onPress, onLongPress, style, background, disabled = false, feed = false } = this.props;
+    const { onPress, onLongPress, style, background, disabled = false, feed = false, noActive = false } = this.props;
+    if (noActive) {
+      return (
+        <TouchableOpacity activeOpacity={ 1 }
+                          focusedOpacity={ 1 }
+                          onPress={ disabled ? this.disableFunc : onPress }
+                          onLongPress={ disabled ? this.disableFunc : onLongPress }
+                          style={ style }>
+          { this.props.children }
+        </TouchableOpacity>
+      )
+    }
     if (Platform.OS === 'android' && feed) {
       return (
         <TouchableNativeFeedback

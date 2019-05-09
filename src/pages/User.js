@@ -11,9 +11,10 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
+  StatusBar
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions, StackActions , SafeAreaView } from 'react-navigation';
+import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
 import { Avatar, Btn, Separator, TouchableCross } from '../components'
 import S from "../public/style";
 import { color, screen } from "../utils";
@@ -51,8 +52,8 @@ export default class User extends Component {
       position: 'absolute',
       top: 18,
       left: 0,
-          borderWidth: 1,
-              borderColor: '#991010',
+      borderWidth: 1,
+      borderColor: '#991010',
       width: screen.width,
       justifyContent: 'space-between',
     }] }>
@@ -69,30 +70,47 @@ export default class User extends Component {
     </View>
   )
 
-  renderFiles = () => (
-    <View style={ styles.itemLabel }>
-      <TouchableCross feed={ true } onPress={ () => Alert.alert('files') }>
-        <View style={ styles.title }>
-          <Text style={ styles.textTitle }>媒体文件</Text>
-          <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+  renderFiles = () => {
+    const files = [
+      {
+        id: '',
+        uri: 'https://pic.xiami.net/images/collect/903/3/183545903_58e320f4e3be9_vzkF_1491280116.jpg?x-oss-process=image/resize,limit_0,s_390,m_fill/quality,q_80'
+      },
+      {
+        id: '',
+        uri: 'https://pic.xiami.net/images/collect/422/22/148428422_5864dfa89fbe9_RTkK_1483005864.jpg?x-oss-process=image/resize,m_fill,limit_0,s_300/quality,q_80'
+      },
+      {
+        id: '',
+        uri: 'https://pic.xiami.net/images/collect/541/41/250879541_5864df07561a7_zbdx_1483005703.jpg?x-oss-process=image/resize,m_fill,limit_0,s_300/quality,q_80'
+      },
+      {
+        id: '',
+        uri: 'https://pic.xiami.net/images/collect/495/95/104618495_5864df86bad80_EMKX_1483005830.jpg?x-oss-process=image/resize,m_fill,limit_0,s_300/quality,q_80'
+      },
+    ]
+    return (
+      <View style={ styles.itemLabel }>
+        <TouchableCross feed={ true } onPress={ () => Alert.alert('files') }>
+          <View style={ styles.title }>
+            <Text style={ styles.textTitle }>媒体文件</Text>
+            <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+          </View>
+        </TouchableCross>
+        <View style={ styles.labelContainer }>
+          {
+            files.map((item, index) => {
+              return (
+                <TouchableOpacity style={ styles.labelItem } key={ index }>
+                  <Image source={ { uri: item.uri } } style={ styles.fileImg }/>
+                </TouchableOpacity>
+              )
+            })
+          }
         </View>
-      </TouchableCross>
-      <View style={ styles.labelContainer }>
-        <TouchableOpacity style={ styles.labelItem }>
-          <Image source={ require('../static/images/img1.jpg') } style={ styles.fileImg }/>
-        </TouchableOpacity>
-        <TouchableOpacity style={ styles.labelItem }>
-          <Image source={ require('../static/images/img1.jpg') } style={ styles.fileImg }/>
-        </TouchableOpacity>
-        <TouchableOpacity style={ styles.labelItem }>
-          <Image source={ require('../static/images/img1.jpg') } style={ styles.fileImg }/>
-        </TouchableOpacity>
-        <TouchableOpacity style={ styles.labelItem }>
-          <Image source={ require('../static/images/img1.jpg') } style={ styles.fileImg }/>
-        </TouchableOpacity>
       </View>
-    </View>
-  )
+    )
+  }
 
   renderGroup = () => {
     const groups = [
@@ -103,7 +121,7 @@ export default class User extends Component {
       { title: '组5', uri: 'https://avatars3.githubusercontent.com/u/16267608?s=70&v=4' },
     ]
     return (
-      <View style={ [styles.itemLabel, {borderTopWidth: screen.onePixel, borderTopColor: color.borderOne}] }>
+      <View style={ [styles.itemLabel, { borderTopWidth: screen.onePixel, borderTopColor: color.borderOne }] }>
         <TouchableCross feed={ true } onPress={ () => this.navigateTo('Groups') }>
           <View style={ styles.title }>
             <Text style={ styles.textTitle }>加入的群</Text>
@@ -136,7 +154,12 @@ export default class User extends Component {
     );
 
     return (
-      <SafeAreaView  style={ styles.container }>
+      <SafeAreaView style={ styles.container }>
+        <StatusBar
+          translucent
+          barStyle="light-content"
+          backgroundColor="rgba(0, 0, 0, 0)"
+        />
         <ScrollView showsVerticalScrollIndicator={ false } style={ styles.container }>
           <Image source={ { uri: 'https://i0.hdslb.com/bfs/space/0d8ca2df20e9ac78596f7b5b3c4f9c8f44938c47.png' } }
                  resizeMode='cover'
@@ -167,7 +190,7 @@ export default class User extends Component {
           { this.renderGroup() }
         </ScrollView>
         { this.renderHeaderBar() }
-      </SafeAreaView >
+      </SafeAreaView>
     )
   }
 }

@@ -19,7 +19,7 @@ export default class StatusBars extends PureComponent {
   }
 
   render() {
-    const { animated, hidden, backgroundColor = 'rgba(81, 124, 162,0.22)', translucent = true, barStyle = "light-content" } = this.props
+    const { animated, hidden, backgroundColor = 'rgba(66, 99, 129, 0.9)', translucent = true, barStyle = "light-content" } = this.props
     const defaultConfig = { animated, hidden, backgroundColor, translucent, barStyle }
     //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden
     //是否隐藏状态栏。

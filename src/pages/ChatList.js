@@ -8,7 +8,6 @@ import {
   BackHandler,
   FlatList,
   Alert,
-  StatusBar,
 } from 'react-native';
 import S from '../public/style'
 import Svg from '../lib/svg'
@@ -167,11 +166,6 @@ class ChatList extends Component {
   render() {
     return (
       <SafeAreaView style={ styles.container }>
-        {/*<StatusBar*/}
-        {/*  translucent*/}
-        {/*  barStyle="light-content"*/}
-        {/*  backgroundColor="rgba(0, 0, 0, 0.255)"*/}
-        {/*/>*/}
         <StatusBars />
         { this.renderHeaderBar() }
         { this.renderChatList() }
