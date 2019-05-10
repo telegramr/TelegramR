@@ -15,11 +15,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
-import { Avatar, Btn, Separator, TouchableCross } from '../components'
-import S from "../public/style";
-import { color, screen } from "../utils";
-import Svg from "../lib/svg";
-import { H4, H3, H2, H1, Normal } from "../components/TextTool";
+import { Avatar, Btn, Separator, TouchableCross } from '../../components'
+import S from "../../public/style";
+import { color, screen } from "../../utils";
+import Svg from "../../lib/svg";
+import { H4, H3, H2, H1, Normal } from "../../components/TextTool";
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -94,7 +94,7 @@ export default class User extends Component {
         <TouchableCross feed={ true } onPress={ () => Alert.alert('files') }>
           <View style={ styles.title }>
             <Text style={ styles.textTitle }>媒体文件</Text>
-            <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+            <Image source={ require('../../static/images/ico_right.png') } style={ styles.arrowRight }/>
           </View>
         </TouchableCross>
         <View style={ styles.labelContainer }>
@@ -125,7 +125,7 @@ export default class User extends Component {
         <TouchableCross feed={ true } onPress={ () => this.navigateTo('Groups') }>
           <View style={ styles.title }>
             <Text style={ styles.textTitle }>加入的群</Text>
-            <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+            <Image source={ require('../../static/images/ico_right.png') } style={ styles.arrowRight }/>
           </View>
         </TouchableCross>
         <View style={ styles.labelContainer }>

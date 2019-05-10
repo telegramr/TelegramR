@@ -10,13 +10,13 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Avatar, Btn, TouchableCross } from '../components'
-import * as loginAction from '../actions/loginAction';
+import { Avatar, Btn, TouchableCross } from '../../components'
+import * as loginAction from '../../actions/loginAction';
 import { NavigationActions, StackActions } from 'react-navigation';
-import S from "../public/style";
-import { color, screen } from "../utils";
-import Svg from "../lib/svg";
-import { H4, H3, Normal, Tip } from "../components/TextTool";
+import S from "../../public/style";
+import { color, screen } from "../../utils";
+import Svg from "../../lib/svg";
+import { H4, H3, Normal, Tip } from "../../components/TextTool";
 
 
 const resetAction = StackActions.reset({
@@ -43,7 +43,7 @@ export default class Groups extends Component {
     }] }>
       <View style={ [S.flexCenter, { width: 30, height: 30 }] }>
         <Btn circular={ true } onPress={ () => (this.props.navigation.goBack()) }>
-          <Image source={ require('../static/images/ico_left.png') } style={ styles.arrowLeft }/>
+          <Image source={ require('../../static/images/ico_left.png') } style={ styles.arrowLeft }/>
         </Btn>
       </View>
       <Text style={ styles.headTitle }>公开的群</Text>

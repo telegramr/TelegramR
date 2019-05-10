@@ -12,13 +12,13 @@ import {
   StatusBar
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Avatar, Btn, TouchableCross } from '../components'
-import * as loginAction from '../actions/loginAction';
+import { Avatar, Btn, TouchableCross } from '../../components'
+import * as loginAction from '../../actions/loginAction';
 import { NavigationActions, SafeAreaView, StackActions, } from 'react-navigation';
-import S from "../public/style";
-import { color, screen } from "../utils";
-import Svg from "../lib/svg";
-import { H2, H4, Normal } from "../components/TextTool";
+import S from "../../public/style";
+import { color, screen } from "../../utils";
+import Svg from "../../lib/svg";
+import { H2, H4, Normal } from "../../components/TextTool";
 
 
 const resetAction = StackActions.reset({
@@ -51,7 +51,7 @@ export default class GroupDetail extends Component {
         <View style={ [S.flexSB, S.flexAIC, S.pd10, { justifyContent: 'space-between' }] }>
           <View style={ [S.flexCenter, { width: 30, height: 30 }] }>
             <Btn circular={ true } onPress={ () => (this.props.navigation.goBack()) }>
-              <Image source={ require('../static/images/ico_left.png') } style={ styles.arrowLeft }/>
+              <Image source={ require('../../static/images/ico_left.png') } style={ styles.arrowLeft }/>
             </Btn>
           </View>
           <View style={ [S.flexCenter, { width: 30, height: 30 }] }>
@@ -91,12 +91,12 @@ export default class GroupDetail extends Component {
     ]
     return (
       <View style={ styles.group }>
-        <TouchableCross feed onPress={ () => this.navigateTo('') }>
+        <TouchableCross feed onPress={ () => this.navigateTo('GroupUsers') }>
           <View style={ styles.title }>
             <Text style={ styles.textTitle }>群聊成员</Text>
             <View style={ styles.Right }>
               <Text style={ styles.textTitle1 }>共13人</Text>
-              <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+              <Image source={ require('../../static/images/ico_right.png') } style={ styles.arrowRight }/>
             </View>
           </View>
         </TouchableCross>
@@ -144,7 +144,7 @@ export default class GroupDetail extends Component {
                 <View style={ [styles.groupBox, S.border, { padding: 10, backgroundColor: '#fff' }] }>
                   <Text style={ styles.textTitle }>{ item.title }</Text>
                   <View style={ styles.Right }>
-                    <Image source={ require('../static/images/ico_right.png') } style={ styles.arrowRight }/>
+                    <Image source={ require('../../static/images/ico_right.png') } style={ styles.arrowRight }/>
                   </View>
                 </View>
               </TouchableCross>

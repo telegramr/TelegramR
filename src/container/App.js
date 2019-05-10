@@ -24,7 +24,8 @@ import ChatPage from '../pages/Chat'
 import SettingPage from '../pages/Drawers/Setting'
 import UserPage from '../pages/User'
 import GroupsPage from '../pages/Groups'
-import GroupDetailPage from '../pages/GroupDetail'
+import GroupDetailPage from '../pages/Groups/GroupDetail'
+import GroupUsersPage from '../pages/Groups/GroupUsers'
 
 
 export const DrawerMenuStack = createDrawerNavigator({
@@ -75,6 +76,7 @@ const AppContainer = createStackNavigator({
   User: { screen: UserPage },
   Groups: { screen: GroupsPage },
   GroupDetail: { screen: GroupDetailPage },
+  GroupUsers: {screen: GroupUsersPage},
   DrawerMenuStack
 }, {
   navigationOptions: {
@@ -89,7 +91,7 @@ const AppContainer = createStackNavigator({
   //   screenInterpolator: CardStackStyleInterpolator.forHorizontal
   // })),
   headerMode: 'none',
-  initialRouteName: 'DrawerMenuStack',
+  initialRouteName: 'GroupUsers',
   mode: 'card',
 })
 
