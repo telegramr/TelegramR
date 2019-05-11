@@ -14,7 +14,7 @@ import {
   StatusBar
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Avatar, Btn, Label, TouchableCross } from '../../components'
+import { Avatar, Btn, Label, TouchableCross, Separator } from '../../components'
 import * as loginAction from '../../actions/loginAction';
 import { NavigationActions, SafeAreaView, StackActions, } from 'react-navigation';
 import S from "../../public/style";
@@ -36,13 +36,52 @@ export default class GroupUsers extends Component {
     this.state = {
       showSearch: false,
       q: '',
+      isRefresh: false,
       managers: [
         { uname: 'Beats0', avatar: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4', point: 8000 },
         { uname: '赤座あかり', avatar: 'https://lain.bgm.tv/pic/crt/l/19/44/13004_crt_kiafp.jpg', point: 7000 },
         { uname: '歳納京子', avatar: 'https://lain.bgm.tv/pic/crt/s/05/98/13005_crt_o8PHg.jpg', point: 6000 },
         { uname: '船見結衣', avatar: 'https://lain.bgm.tv/pic/crt/s/7f/f6/13006_crt_44395.jpg', point: 5000 },
-      ]
+      ],
+      users: {
+        page: 0,
+        pages: 1,
+        lists: [
+          {
+            uname: '吉川ちなつ',
+            avatar: 'https://lain.bgm.tv/pic/crt/s/4c/ee/13007_crt_U3Pqv.jpg?r=1444773044',
+            point: 5000
+          },
+          {
+            uname: '杉浦綾乃',
+            avatar: 'https://lain.bgm.tv/pic/crt/s/69/60/13008_crt_4B7Zn.jpg?r=1447203401',
+            point: 5000
+          },
+          {
+            uname: '池田 千鶴',
+            avatar: 'https://lain.bgm.tv/pic/crt/s/d9/ec/27904_crt_4Fs21.jpg?r=1425883024',
+            point: 5000
+          },
+          {
+            uname: '大室櫻子',
+            avatar: 'https://lain.bgm.tv/pic/crt/s/67/49/13012_crt_xrLRL.jpg?r=1445999756',
+            point: 5000
+          },
+          {
+            uname: '古谷向日葵',
+            avatar: 'https://lain.bgm.tv/pic/crt/s/52/68/13011_crt_Q0abK.jpg?r=1446599422',
+            point: 5000
+          },
+          { uname: '池田千歳', avatar: 'https://lain.bgm.tv/pic/crt/m/c7/dc/16802_crt_a49kW.jpg', point: 5000 },
+        ]
+      }
     }
+  }
+
+  componentDidMount() {
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
   }
 
   navigateTo = (routeName, ...params) => {
@@ -88,7 +127,7 @@ export default class GroupUsers extends Component {
   renderManagers = () => {
     const { managers } = this.state
     return (
-      <View style={ [S.flexCol,] }>
+      <View style={ S.flexCol }>
         <View style={ styles.title }>
           <Text>管理员</Text>
         </View>
@@ -98,7 +137,7 @@ export default class GroupUsers extends Component {
               <TouchableCross feed onPress={ () => this.navigateTo('User') } key={ index }
                               style={ { marginBottom: 10 } }>
                 <View style={ [S.flexRow, styles.title] }>
-                  <Avatar uri={ item.avatar } size={ 50 } mr={ 10 }/>
+                  <Avatar uri={ item.avatar } mr={ 10 }/>
                   <View style={ [S.flexRow, { alignItems: 'center' }] }>
                     <Label point={ item.point }/>
                     <H4 title={ item.uname } style={ { marginLeft: 5 } }/>
@@ -108,16 +147,52 @@ export default class GroupUsers extends Component {
             )
           })
         }
+        <Separator height={ 4 } backgroundColor={ '#eee' }/>
       </View>
     )
   }
 
-  renderUsers = () => {
+  renderList = () => {
+    const { users, isRefresh } = this.state
     return (
-      <FlatList/>
+      <FlatList
+        data={ users.lists }
+        keyExtractor={ (item, index) => `${ index }` }
+        showsHorizontalScrollIndicator={ false }
+        removeClippedSubviews={ true }
+        ListHeaderComponent={ this.renderManagers }
+        renderItem={ (item) => this.renderUserCell(item) }
+        onRefresh={ this._onRefresh }
+        refreshing={ isRefresh }
+        // onEndReached={() => this._onLoadMore()}
+        onEndReachedThreshold={ 0.5 }
+      />
     )
   }
 
+  renderUserCell = ({ item, index }) => {
+    return (
+      <View style={ [S.flexCol,] }>
+        {
+          index === 0 ? (
+            <View style={ styles.title }>
+              <Text>群成员</Text>
+            </View>
+          ) : null
+        }
+        <TouchableCross feed onPress={ () => this.navigateTo('User') } key={ index }
+                        style={ { marginBottom: 10 } }>
+          <View style={ [S.flexRow, styles.title] }>
+            <Avatar uri={ item.avatar } mr={ 10 }/>
+            <View style={ [S.flexRow, { alignItems: 'center' }] }>
+              <Label point={ item.point }/>
+              <H4 title={ item.uname } style={ { marginLeft: 5 } }/>
+            </View>
+          </View>
+        </TouchableCross>
+      </View>
+    )
+  }
 
   render() {
     return (
@@ -128,7 +203,7 @@ export default class GroupUsers extends Component {
           backgroundColor="rgba(0,0,0,0.22)"
         />
         { this.renderHeader() }
-        { this.renderManagers() }
+        { this.renderList() }
       </SafeAreaView>
     )
   }

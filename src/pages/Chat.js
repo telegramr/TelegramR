@@ -10,6 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import S from '../public/style'
+import Message from '../components/Message'
 import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from '../components'
 import { connect } from 'react-redux';
 import * as loginAction from '../actions/loginAction';
@@ -175,7 +176,7 @@ class Chat extends Component {
         refreshing={ isRefresh }
         // onEndReached={() => this._onLoadMore()}
         onEndReachedThreshold={ 0.5 }
-        onContentSizeChange={ this.handleScrollToEnd }
+        // onContentSizeChange={ this.handleScrollToEnd }
       />
     )
   }
@@ -200,13 +201,7 @@ class Chat extends Component {
                 <Label point={ 8000 }/>
                 <Normal title={ item.uname } color={ color.gray }/>
               </View>
-              <TouchableOpacity
-                style={ [S.pd10, S.chatBubblesRight, S.shadow, {
-                  backgroundColor: color.white,
-                  maxWidth: screen.width - 120
-                }] }>
-                <H4 title={ item.message }/>
-              </TouchableOpacity>
+              <Message type={item.type} content={item.message} />
             </View>
             <TouchableOpacity activeOpacity={ 1 }
                               focusedOpacity={ 1 } style={ { marginLeft: 5 } }>
@@ -228,13 +223,7 @@ class Chat extends Component {
               <Label point={ 2000 }/>
               <Normal title={ item.uname } color={ color.gray }/>
             </View>
-            <TouchableOpacity
-              style={ [S.pd10, S.chatBubblesLeft, S.shadow, {
-                backgroundColor: color.white,
-                maxWidth: screen.width - 120
-              }] }>
-              <H4 title={ item.message }/>
-            </TouchableOpacity>
+            <Message type={item.type} content={item.message} out={item.out} />
           </View>
         </View>
       </View>

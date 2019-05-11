@@ -10,16 +10,17 @@ export default class Separator extends PureComponent {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
+    backgroundColor: PropTypes.string
   }
 
   render() {
-    const {width, height} = this.props
+    const {width, height, backgroundColor = color.border } = this.props
     return (
       <View style={[
         S.flexCenter,
-        {width: width || screen.width, height: height || screen.onePixel }
+        {width: width || screen.width, height: height || screen.onePixel, backgroundColor }
         ]}>
-        <View style={{width: width || screen.width, height: screen.onePixel, backgroundColor: color.border }} />
+        <View style={{width: width || screen.width, height: screen.onePixel, backgroundColor }} />
       </View>
     )
   }

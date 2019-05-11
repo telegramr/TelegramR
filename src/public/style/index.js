@@ -169,12 +169,14 @@ export default StyleSheet.create({
   chatBubblesLeft: {
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    borderBottomRightRadius: 10,
+    overflow: 'hidden'
   },
   chatBubblesRight: {
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    borderBottomRightRadius: 10,
+    overflow: 'hidden'
   },
   shadow: {
     shadowOffset: { width: 0, height: 0 },
