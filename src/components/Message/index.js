@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types'
 import MessageText from './MessageText'
+import MessageSticker from './MessageSticker'
 import MessageImage from './MessageImage'
 import { H4 } from "../TextTool";
 
@@ -28,9 +29,11 @@ class Message extends Component {
     const { type = 'text', content, out } = this.props
     switch (type) {
       case 'text':
-        return <MessageText content={ content } out={ out }/>
+        return <MessageText messageStr={ content } out={ out }/>
+      case 'sticker':
+        return <MessageSticker uri={ content } out={ out }/>
       case 'img':
-        return <MessageImage content={ content } out={ out }/>
+        return <MessageImage imgArr={ content } out={ out }/>
       default:
         return <H4 title={ '不支持此类消息' }/>
     }

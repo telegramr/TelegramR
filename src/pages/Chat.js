@@ -76,6 +76,7 @@ class Chat extends Component {
 
   handleScrollToEnd = () => {
     this.flatList.scrollToEnd({ animated: true })
+    this.flatList.scrollToEnd({ animated: false })
   }
 
   renderHeaderBar = () => {
@@ -155,12 +156,12 @@ class Chat extends Component {
   renderList() {
     const { lists, isRefresh, isEnd, setIsEnd } = this.props
     // TODO: handleScrollToEnd and don't ues onContentSizeChange when init state
-    // if (isEnd) {
-    //   setTimeout(() => {
-    //     this.handleScrollToEnd()
-    //     setIsEnd(false)
-    //   })
-    // }
+    if (isEnd) {
+      setTimeout(() => {
+        this.handleScrollToEnd()
+        setIsEnd(false)
+      })
+    }
     return (
       <FlatList
         ref={ ref => this.flatList = ref }

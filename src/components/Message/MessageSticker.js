@@ -21,11 +21,11 @@ class ImageAuto extends Component {
   componentDidMount() {
     const { uri } = this.props
     Image.getSize(`${ uri }`, (w, h) => {
-      if (w >= screen.width - 120) {
+      if (w >= screen.width - 200) {
         const scaleFactor = h / w
-        const imgHeight = scaleFactor * (screen.width - 120)
+        const imgHeight = scaleFactor * (screen.width - 200)
         this.setState({
-          imgWidth: screen.width - 120,
+          imgWidth: screen.width - 200,
           imgHeight
         })
       } else {
@@ -54,9 +54,9 @@ class ImageAuto extends Component {
 
 }
 
-class MessageImage extends Component {
+class MessageSticker extends Component {
   static propTypes = {
-    imgArr: PropTypes.array.isRequired,
+    uri: PropTypes.string.isRequired
   }
 
   constructor(props) {
@@ -64,22 +64,16 @@ class MessageImage extends Component {
   }
 
   render() {
-    const { imgArr, out } = this.props
+    const { uri, out } = this.props
     return (
-      <View style={ [out ? S.chatBubblesRight : S.chatBubblesLeft, S.shadow, {
-        backgroundColor: color.white,
-        maxWidth: screen.width - 120,
-        padding: 3
+      <View style={ [{
+        maxWidth: screen.width - 200,
       }] }>
-        {
-          imgArr.map((uri, index) => {
-            return <ImageAuto uri={ uri } key={ index }/>
-          })
-        }
+        <ImageAuto uri={ uri }/>
       </View>
     )
   }
 }
 
 
-export default MessageImage
+export default MessageSticker

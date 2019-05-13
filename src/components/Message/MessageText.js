@@ -9,7 +9,7 @@ import { color, screen } from "../../utils";
 
 class MessageText extends Component {
   static propTypes = {
-    content: PropTypes.string,
+    messageStr: PropTypes.string,
   }
 
   constructor(props) {
@@ -17,7 +17,7 @@ class MessageText extends Component {
   }
 
   render() {
-    const { content, out } = this.props
+    const { messageStr, out } = this.props
     // TODO: add url link...
     return (
       <TouchableOpacity activeOpacity={ 0.8 }
@@ -25,7 +25,7 @@ class MessageText extends Component {
                           backgroundColor: color.white,
                           maxWidth: screen.width - 120,
                         }] }>
-        <H4 title={ content }/>
+        <H4 title={ messageStr }/>
       </TouchableOpacity>
     )
   }

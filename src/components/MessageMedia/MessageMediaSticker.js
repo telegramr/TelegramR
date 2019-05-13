@@ -1,18 +1,12 @@
 /**
- * @param    id            {long}                Photo identifier
- * @param    access_hash  {long}                Checksum dependent on photo identifier
- * @param    user_id      {int}                Photo sender
- * @param    date          {int}                Date created
- * @param    caption      {string}              Text description
- * @param    geo          {GeoPoint}            GeoPoint
- * @param    sizes        {Vector<PhotoSize}>  List of available images
+ * @param    id             {long}                Photo identifier
+ * @param    access_hash    {long}                Checksum dependent on photo identifier
+ * @param    user_id        {int}                 Photo sender
+ * @param    date           {int}                 Date created
+ * @param    caption        {string}              Text description
+ * @param    sizes          {Vector<PhotoSize}>   List of available images
  * */
 
-/**
- * @type GeoPoint
- * @param long  {double}  Longtitude
- * @param lat  {double}  Latitude
- * */
 import React, { Component } from 'react';
 import {
   View,
@@ -20,9 +14,13 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import { connect } from 'react-redux';
+import * as messageMediaAction from '../../actions/messageMidiaAction'
 import S from '../../public/style'
-import { ImageAuto, ImageBgAuto, TouchableCross, TextTool } from '../../components'
+import { ImageAuto, ImageStickerAuto, TouchableCross, TextTool } from '../../components'
 import { color, screen } from '../../utils'
+import * as loginAction from "../../actions/loginAction";
+import * as chatAction from "../../actions/chatAction";
 
 const { H4, Normal } = TextTool;
 
@@ -148,9 +146,12 @@ class MessageMediaPhoto extends Component {
   }
 
   renderPicItem = ({ item, index }) => {
+    const { sendMessageMedia } = this.props
     return (
-      <TouchableOpacity style={ [S.flexCenter, { width: (screen.width - 8 * 8) / 5, marginHorizontal: 2 }] }>
-        <ImageBgAuto uri={ item.uri } width={ (screen.width - 6 * 8) / 5 }/>
+      <TouchableOpacity onPress={() =>  sendMessageMedia(item.uri )}
+        activeOpacity={ 0.9 }
+        style={ [S.flexCenter, { width: (screen.width - 2 * 10) / 5, margin: 2 }] }>
+        <ImageStickerAuto uri={ item.uri }/>
       </TouchableOpacity>
     )
   }
@@ -183,6 +184,7 @@ class MessageMediaPhoto extends Component {
     const currentStickers = stickers.filter(item => item.id === currentId)
     return (
       <View style={ styles.container }>
+        {/*选中stickers 列表*/}
         <FlatList
           data={ currentStickers[0].stickers }
           style={ styles.stickerContainer }
@@ -191,6 +193,7 @@ class MessageMediaPhoto extends Component {
           numColumns={ 5 }
           showsHorizontalScrollIndicator={ false }
         />
+        {/*sticker 底部*/}
         <View style={ [S.inputBar, styles.inputMenu, { padding: 0 }] }>
           <FlatList
             data={ thumbs }
@@ -206,7 +209,13 @@ class MessageMediaPhoto extends Component {
   }
 }
 
-export default MessageMediaPhoto
+export default connect(
+  (state) => ({
+  }),
+  (dispatch) => ({
+    sendMessageMedia: (messageObj, mediaType = 'sticker') => dispatch(messageMediaAction.sendMessageMedia(messageObj, mediaType))
+  })
+)(MessageMediaPhoto)
 
 const styles = StyleSheet.create({
   container: {

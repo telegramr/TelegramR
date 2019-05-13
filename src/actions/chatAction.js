@@ -3,17 +3,17 @@
 import * as types from '../constants/Types';
 
 export class messageObjType {
-  id: string
-  from_id: string
-  to_id: string
-  out: boolean
-  uname: string
-  avatar: string
-  message: string
-  date: string
+  id: String
+  from_id: String
+  to_id: String
+  out: Boolean
+  uname: String
+  avatar: String
+  message: String | Object | Array
+  date: String
 }
 
-export function fetchMessagePrevious(currentMessageId: string, maxMessageId: string, count = 10) {
+export function fetchMessagePrevious(currentMessageId: String, maxMessageId: String, count = 10) {
   return (dispatch, getState) => {
     const {messageStr} = getState().messageMedia;
     // dispatch(sendingMessage());
@@ -27,7 +27,7 @@ export function fetchMessagePrevious(currentMessageId: string, maxMessageId: str
   }
 }
 
-export function setRefreshStatus(isRefresh: boolean) {
+export function setRefreshStatus(isRefresh: Boolean) {
   return {
     type: types.SET_REFRESH_STATUS,
     isRefresh
@@ -42,7 +42,7 @@ export function addChatMessage(messageObj: messageObjType) {
   }
 }
 
-export function removeChatMessage(messageId: string) {
+export function removeChatMessage(messageId: String) {
   console.log(messageId)
   return {
     type: types.REMOVE_CHAT_MESSAGE,
@@ -50,7 +50,7 @@ export function removeChatMessage(messageId: string) {
   }
 }
 
-export function setIsEnd(isEnd: boolean) {
+export function setIsEnd(isEnd: Boolean) {
   return {
     type: types.SET_IS_END,
     isEnd
