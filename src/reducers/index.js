@@ -6,13 +6,15 @@ import counter from './counterReducer';
 import orientation from './orientationReducer';
 import chat from './chatReducer'
 import messageMedia from './messageMediaReducer';
+import messageMediaPhoto from './messageMediaPhotoReducer';
 
 const rootReducer = combineReducers({
   loginIn,
   counter,
   orientation,
   chat,
-  messageMedia
+  messageMedia,
+  messageMediaPhoto
 });
 
 export default rootReducer;
