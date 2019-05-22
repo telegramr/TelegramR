@@ -14,7 +14,7 @@ import Message from '../components/Message'
 import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from '../components'
 import { connect } from 'react-redux';
 import * as loginAction from '../actions/loginAction';
-import * as messageMediaAction from '../actions/messageMidiaAction'
+import * as messageMediaAction from '../actions/messageMediaAction'
 import * as chatAction from '../actions/chatAction'
 import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
 import { screen, color } from "../utils";
@@ -160,12 +160,13 @@ class Chat extends Component {
       setTimeout(() => {
         this.handleScrollToEnd()
         setIsEnd(false)
-      })
+      }, 100)
     }
     return (
       <FlatList
         ref={ ref => this.flatList = ref }
         data={ lists }
+        extraData={ this.state }
         onTouchStart={ this.closeMessageMediaModal }
         keyExtractor={ (item, index) => `${ index }` }
         showsHorizontalScrollIndicator={ false }

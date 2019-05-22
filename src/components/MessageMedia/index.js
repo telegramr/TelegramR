@@ -42,6 +42,8 @@ import {
   Keyboard,
 } from 'react-native';
 import Modal from 'react-native-modal'
+import ImagePicker from "react-native-image-picker"
+// TODO: add 'react-native-fs' & 'react-native-fetch-blob'
 import MessageMediaAudio from './MessageMediaAudio'
 import MessageMediaSticker from './MessageMediaSticker'
 import MessageMediaPhoto from './MessageMediaPhoto'
@@ -50,7 +52,7 @@ import Svg from "../../lib/svg";
 import { color, screen } from '../../utils'
 import { TouchableCross } from '../../components'
 import { connect } from "react-redux";
-import * as messageMediaAction from "../../actions/messageMidiaAction";
+import * as messageMediaAction from "../../actions/messageMediaAction";
 import messageMedia from "../../reducers/messageMediaReducer";
 
 
@@ -101,6 +103,59 @@ class MessageMedia extends Component {
       this.handleShowMessageMediaModal(currentMessageMediaName)
     }
   }
+
+   // 选择图片
+   selectPhotoTapped = () => {
+    const {sendMessageMedia} = this.props
+    const options = {
+      title: '选择图片',
+      cancelButtonTitle: '取消',
+      takePhotoButtonTitle: '拍照',
+      chooseFromLibraryButtonTitle: '选择照片',
+      cameraType: 'back',
+      mediaType: 'photo',
+      videoQuality: 'medium',
+      // 图片质量
+      durationLimit: 10,
+      maxWidth: 500,
+      // 图片大小
+      maxHeight: 500,
+      // 图片大小
+      quality: 0.8,
+      angle: 0,
+      allowsEditing: false,
+      noData: false,
+      storageOptions: {skipBackup: true},
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const photos = [
+          response.uri
+        ]
+        sendMessageMedia(photos, 'img')
+        // TODO: add upload file api
+        // let file = {
+        //   uri: response.uri,
+        //   name: response.fileName,
+        //   type: response.type
+        // }
+        // let formData = new FormData()
+        // formData.append('photo', file)
+        // apiUpload.avatar(formData).then(data => {
+        //   if (data.type === 'success') {
+        //
+        //   }
+        // })
+      }
+    });
+  };
+
 
   renderCurrentMessageMedia = () => {
     const { currentMessageMedia } = this.props;
@@ -200,7 +255,7 @@ class MessageMedia extends Component {
             <Svg icon="image" size="27"
                  color={ currentMessageMedia === 'MessageMediaPhoto' ? color.blueLight : color.gray }/>
           </TouchableOpacity>
-          <TouchableOpacity style={ [S.btnContainer, styles.menuBtn] }>
+          <TouchableOpacity onPress={this.selectPhotoTapped} style={ [S.btnContainer, styles.menuBtn] }>
             <Svg icon="camera" size="27" color={ color.gray }/>
           </TouchableOpacity>
           <TouchableOpacity style={ [S.btnContainer, styles.menuBtn] }>
@@ -274,5 +329,6 @@ export default connect(
     sendMessage: () => dispatch(messageMediaAction.sendMessage()),
     showMessageModalFn: () => dispatch(messageMediaAction.showMessageModalFn()),
     closeMessageModalFn: () => dispatch(messageMediaAction.closeMessageModalFn()),
+    sendMessageMedia: (messageObj, mediaType) => dispatch(messageMediaAction.sendMessageMedia(messageObj, mediaType))
   })
 )(MessageMedia)

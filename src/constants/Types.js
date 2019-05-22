@@ -22,8 +22,3 @@ export const ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE'
 export const REMOVE_CHAT_MESSAGE = 'REMOVE_CHAT_MESSAGE'
 export const SET_REFRESH_STATUS = 'SET_REFRESH_STATUS'
 export const SET_IS_END = 'SET_IS_END'
-
-export const SELECT_PHOTO = 'SELECT_PHOTO'
-export const SEND_PHOTO = 'SEND_PHOTO'
-
-

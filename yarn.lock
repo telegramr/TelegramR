@@ -5155,6 +5155,11 @@ react-native-gesture-handler@^1.2.1:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-image-picker@^0.28.1:
+  version "0.28.1"
+  resolved "https://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-0.28.1.tgz#1127460522e0c9741fc62f3d040271d298fb6a6e"
+  integrity sha1-ESdGBSLgyXQfxi89BAJx0pj7am4=
+
 react-native-modal@^10.0.0:
   version "10.0.0"
   resolved "https://registry.npm.taobao.org/react-native-modal/download/react-native-modal-10.0.0.tgz#1b0b15cc6cda9584f122cced106a9f9f37befc08"

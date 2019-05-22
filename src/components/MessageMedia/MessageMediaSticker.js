@@ -15,12 +15,10 @@ import {
   FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
-import * as messageMediaAction from '../../actions/messageMidiaAction'
+import * as messageMediaAction from '../../actions/messageMediaAction'
 import S from '../../public/style'
 import { ImageAuto, ImageStickerAuto, TouchableCross, TextTool } from '../../components'
 import { color, screen } from '../../utils'
-import * as loginAction from "../../actions/loginAction";
-import * as chatAction from "../../actions/chatAction";
 
 const { H4, Normal } = TextTool;
 
