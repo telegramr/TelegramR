@@ -40,8 +40,9 @@ export default class ImageAuto extends Component {
 
   render() {
     const {imgWidth, imgHeight} = this.state
+    // TODO: IOS get 0
     return (
-      <Image style={{width: imgWidth, height: imgHeight}} source={{uri: `${this.props.uri}`}}/>
+      <Image style={{width: imgWidth || 30, height: imgHeight || 30}} source={{uri: `${this.props.uri}`}}/>
     )
   }
 }
