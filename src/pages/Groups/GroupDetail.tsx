@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   TouchableHighlight,
   Alert,
   ImageBackground,
@@ -11,33 +10,31 @@ import {
   ScrollView,
   StatusBar
 } from 'react-native';
-import { connect } from 'react-redux';
 import { Avatar, Btn, TouchableCross } from '../../components'
-import * as loginAction from '../../actions/loginAction';
-import { NavigationActions, SafeAreaView, StackActions, } from 'react-navigation';
+import { SafeAreaView,NavigationScreenProp, NavigationState, NavigationParams} from 'react-navigation';
 import S from "../../public/style";
 import { color, screen } from "../../utils";
 import Svg from "../../lib/svg";
 import { H2, H4, Normal } from "../../components/TextTool";
 
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Main' })
-  ],
-});
 
-export default class GroupDetail extends Component {
-  constructor(props) {
+interface Props {
+  navigation: NavigationScreenProp<NavigationState>;
+}
+
+interface State {
+}
+
+
+export default class GroupDetail extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
   }
 
-  navigateTo = (routeName, ...params) => {
-    const { navigate } = this.props.navigation
-    navigate(routeName, ...params)
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params)
   };
-
 
   renderHead = () => {
     const groupInfo = {

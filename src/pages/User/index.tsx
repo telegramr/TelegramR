@@ -6,32 +6,33 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ImageBackground,
   Image,
   ScrollView,
-  RefreshControl,
   Platform,
   StatusBar
 } from 'react-native';
-import { connect } from 'react-redux';
-import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
-import { Avatar, Btn, Separator, TouchableCross } from '../../components'
+import { SafeAreaView, NavigationScreenProp, NavigationParams, NavigationState } from 'react-navigation';
+import { Avatar, Btn, TouchableCross } from '../../components'
 import S from "../../public/style";
 import { color, screen } from "../../utils";
 import Svg from "../../lib/svg";
-import { H4, H3, H2, H1, Normal } from "../../components/TextTool";
+import { H4, H2 } from "../../components/TextTool";
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Main' })
-  ],
-});
+const { HEADER_MAX_HEIGHT } = screen
 
-const { HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT, HEADER_SCROLL_DISTANCE } = screen
 
-export default class User extends Component {
-  constructor(props) {
+interface Props {
+  navigation: NavigationScreenProp<NavigationState>;
+}
+
+interface State {
+  scrollY: any;
+  refreshing: boolean;
+}
+
+
+export default class User extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
       scrollY: new Animated.Value(
@@ -42,9 +43,8 @@ export default class User extends Component {
     };
   }
 
-  navigateTo = (routeName, ...params) => {
-    const { navigate } = this.props.navigation
-    navigate(routeName, ...params)
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params)
   };
 
   renderHeaderBar = () => (

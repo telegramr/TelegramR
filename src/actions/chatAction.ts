@@ -2,18 +2,18 @@
 
 import * as types from '../constants/Types';
 
-export class messageObjType {
-  id: String
-  from_id: String
-  to_id: String
-  out: Boolean
-  uname: String
-  avatar: String
-  message: String | Object | Array
-  date: String
+interface MessageObjType {
+  id: string;
+  from_id: string;
+  to_id: string;
+  out?: boolean;
+  uname: string;
+  avatar: string;
+  message: string | object | string[]
+  date: string
 }
 
-export function fetchMessagePrevious(currentMessageId: String, maxMessageId: String, count = 10) {
+export function fetchMessagePrevious(currentMessageId: string, maxMessageId: string, count:number = 10) {
   return (dispatch, getState) => {
     const {messageStr} = getState().messageMedia;
     // dispatch(sendingMessage());
@@ -27,14 +27,14 @@ export function fetchMessagePrevious(currentMessageId: String, maxMessageId: Str
   }
 }
 
-export function setRefreshStatus(isRefresh: Boolean) {
+export function setRefreshStatus(isRefresh: boolean) {
   return {
     type: types.SET_REFRESH_STATUS,
     isRefresh
   }
 }
 
-export function addChatMessage(messageObj: messageObjType) {
+export function addChatMessage(messageObj: MessageObjType) {
   console.log(messageObj)
   return {
     type: types.ADD_CHAT_MESSAGE,

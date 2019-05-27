@@ -3,14 +3,14 @@
 import * as types from '../constants/Types';
 
 
-export function setMessageStr(messageStr) {
+export function setMessageStr(messageStr: string) {
   return {
     type: types.SET_MESSAGESTR,
     messageStr
   }
 }
 
-export function setMessageMedia(currentMessageMedia) {
+export function setMessageMedia(currentMessageMedia: string) {
   console.log(currentMessageMedia)
   return {
     type: types.SET_MESSAGEMEDIA,
@@ -44,7 +44,7 @@ export function closeMessageModalFn() {
   }
 }
 
-function sendSuccess(messageStr) {
+function sendSuccess(messageStr: string) {
   console.log('success', messageStr);
   return {
     type: types.LOGIN_IN_DONE,
@@ -52,7 +52,7 @@ function sendSuccess(messageStr) {
   }
 }
 
-function sendError(error) {
+function sendError(error: Error) {
   console.log(error);
   return {
     type: types.SEND_ERROR,

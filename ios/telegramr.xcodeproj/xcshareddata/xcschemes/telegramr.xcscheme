@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "telegramr.app"
-               BlueprintName = "telegramr"
-               ReferencedContainer = "container:telegramr.xcodeproj">
+               BuildableName = "TelegramR.app"
+               BlueprintName = "TelegramR"
+               ReferencedContainer = "container:TelegramR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "telegramrTests.xctest"
-               BlueprintName = "telegramrTests"
-               ReferencedContainer = "container:telegramr.xcodeproj">
+               BuildableName = "TelegramRTests.xctest"
+               BlueprintName = "TelegramRTests"
+               ReferencedContainer = "container:TelegramR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "telegramrTests.xctest"
-               BlueprintName = "telegramrTests"
-               ReferencedContainer = "container:telegramr.xcodeproj">
+               BuildableName = "TelegramRTests.xctest"
+               BlueprintName = "TelegramRTests"
+               ReferencedContainer = "container:TelegramR.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "telegramr.app"
-            BlueprintName = "telegramr"
-            ReferencedContainer = "container:telegramr.xcodeproj">
+            BuildableName = "TelegramR.app"
+            BlueprintName = "TelegramR"
+            ReferencedContainer = "container:TelegramR.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "telegramr.app"
-            BlueprintName = "telegramr"
-            ReferencedContainer = "container:telegramr.xcodeproj">
+            BuildableName = "TelegramR.app"
+            BlueprintName = "TelegramR"
+            ReferencedContainer = "container:TelegramR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "telegramr.app"
-            BlueprintName = "telegramr"
-            ReferencedContainer = "container:telegramr.xcodeproj">
+            BuildableName = "TelegramR.app"
+            BlueprintName = "TelegramR"
+            ReferencedContainer = "container:TelegramR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

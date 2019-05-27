@@ -1,94 +1,109 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Platform,
   BackHandler,
   FlatList,
-} from 'react-native';
-import S from '../public/style'
-import Message from '../components/Message'
-import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from '../components'
-import { connect } from 'react-redux';
-import * as loginAction from '../actions/loginAction';
-import * as messageMediaAction from '../actions/messageMediaAction'
-import * as chatAction from '../actions/chatAction'
-import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
+} from "react-native";
+import S from "../public/style";
+import Message from "../components/Message";
+import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from "../components";
+import { connect } from "react-redux";
+import { AppState } from "../store/ConfigureStore";
+import * as loginAction from "../actions/loginAction";
+import * as messageMediaAction from "../actions/messageMediaAction";
+import * as chatAction from "../actions/chatAction";
+import { SafeAreaView, NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { screen, color } from "../utils";
 import Svg from "../lib/svg";
-import MessageContainer from '../components/MessageMedia'
+import MessageContainer from "../components/MessageMedia";
 
 
-const { H4, Normal } = TextTool
+const { H4, Normal } = TextTool;
 
-class Chat extends Component {
-  constructor(props) {
-    super(props)
+
+interface Props {
+  name: string;
+  navigation: NavigationScreenProp<NavigationState>;
+  showMessageModal: string;
+}
+
+interface State {
+  avatar: string;
+  title: string;
+  notice: string;
+  lists: any;
+  isRefresh: boolean;
+}
+
+class Chat extends Component<Props, State> {
+  private flatList: any;
+  constructor(props: Props) {
+    super(props);
     this.state = {
-      avatar: '',
-      title: '',
-      notice: '',
+      avatar: "",
+      title: "",
+      notice: "",
       lists: [],
       isRefresh: false,
-    }
-    this.flatList = null
+    };
+    this.flatList = null;
   }
 
   componentDidMount() {
-    if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
+    if (Platform.OS === "android") {
+      BackHandler.addEventListener("hardwareBackPress", this.onBackAndroid);
     }
   }
 
   componentWillUnmount() {
-    if (Platform.OS === 'android') {
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+    if (Platform.OS === "android") {
+      BackHandler.removeEventListener("hardwareBackPress", this.onBackAndroid);
     }
   }
 
   onBackAndroid = () => {
-    const { showMessageModal, closeMessageModalFn } = this.props
+    const { showMessageModal, closeMessageModalFn } = this.props;
     if (showMessageModal) {
-      closeMessageModalFn()
-      return true
+      closeMessageModalFn();
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
-  navigateTo = (routeName, ...params) => {
-    const { navigate } = this.props.navigation
-    navigate(routeName, ...params)
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params);
   };
 
   backHandler = () => {
-    this.props.navigation.goBack()
-  }
+    this.props.navigation.goBack();
+  };
 
   closeMessageMediaModal = () => {
-    const { showMessageModal, closeMessageModalFn } = this.props
+    const { showMessageModal, closeMessageModalFn } = this.props;
     if (showMessageModal) {
-      closeMessageModalFn()
+      closeMessageModalFn();
     }
-  }
+  };
 
   handleScrollToEnd = () => {
-    this.flatList.scrollToEnd({ animated: true })
-    this.flatList.scrollToEnd({ animated: false })
-  }
+    this.flatList.scrollToEnd({ animated: true });
+    this.flatList.scrollToEnd({ animated: false });
+  };
 
   renderHeaderBar = () => {
-    const { avatar, title } = this.props
+    const { avatar, title } = this.props;
     return (
       <View style={ [S.flexSB, S.flexAIC, S.pd8, { backgroundColor: color.theme }] }>
-        <View style={ [S.flex, S.flexCenter, { width: 30, height: 30, position: 'absolute', left: 8 }] }>
+        <View style={ [S.flex, S.flexCenter, { width: 30, height: 30, position: "absolute", left: 8 }] }>
           <Btn circular={ true } onPress={ this.backHandler }>
             <Svg icon="arrowleft" size="22"/>
           </Btn>
         </View>
-        <TouchableCross onPress={ () => this.navigateTo('GroupDetail') }
+        <TouchableCross onPress={ () => this.navigateTo("GroupDetail") }
                         noActive={ true }
                         style={ [S.flexSA, S.flexStart, S.flexAIC, { width: screen.width - 100, marginLeft: 46 }] }>
           <Avatar uri={ avatar } mr={ 10 }/>
@@ -97,17 +112,17 @@ class Chat extends Component {
             <H4 title={ `1999人在线` } color={ color.white }/>
           </View>
         </TouchableCross>
-        <View tyle={ [S.flex, S.flexCenter, { width: 30, height: 30, position: 'absolute', right: 8 }] }>
-          <Btn circular={ true } onPress={ () => this.navigateTo('GroupDetail') }>
+        <View tyle={ [S.flex, S.flexCenter, { width: 30, height: 30, position: "absolute", right: 8 }] }>
+          <Btn circular={ true } onPress={ () => this.navigateTo("GroupDetail") }>
             <Svg icon="team" size="25"/>
           </Btn>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   renderNotice = () => {
-    const { notice } = this.props
+    const { notice } = this.props;
     return (
       <View style={ [S.flexSA, S.flexAIC, S.pd5, { backgroundColor: color.white }] }>
         <TouchableOpacity activeOpacity={ 1 }
@@ -123,14 +138,14 @@ class Chat extends Component {
           <Svg icon="close" size="20" color={ color.gray }/>
         </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
 
   _onRefresh = async () => {
-    let { lists } = this.state
+    let { lists } = this.state;
     this.setState({
       isRefresh: true
-    })
+    });
     // let {storeId, data, currentType} = this.state
     // let queryData = {type: currentType, page: 1}
     // let resData = await api.shop.store(storeId, queryData)
@@ -145,22 +160,22 @@ class Chat extends Component {
     //   })
     // }
     setTimeout(() => {
-      lists = [...lists, ...lists]
+      lists = [...lists, ...lists];
       this.setState({
         lists,
         isRefresh: false
-      })
-    }, 2000)
-  }
+      });
+    }, 2000);
+  };
 
   renderList() {
-    const { lists, isRefresh, isEnd, setIsEnd } = this.props
+    const { lists, isRefresh, isEnd, setIsEnd } = this.props;
     // TODO: handleScrollToEnd and don't ues onContentSizeChange when init state
     if (isEnd) {
       setTimeout(() => {
-        this.handleScrollToEnd()
-        setIsEnd(false)
-      }, 100)
+        this.handleScrollToEnd();
+        setIsEnd(false);
+      }, 100);
     }
     return (
       <FlatList
@@ -180,7 +195,7 @@ class Chat extends Component {
         onEndReachedThreshold={ 0.5 }
         // onContentSizeChange={ this.handleScrollToEnd }
       />
-    )
+    );
   }
 
   renderListFooter = () => {
@@ -188,22 +203,22 @@ class Chat extends Component {
       <View>
         <Text>fefefef</Text>
       </View>
-    )
-  }
+    );
+  };
 
 
   renderChatItem = ({ item, index }) => {
     if (item.out) {
       return (
         <View style={ [S.flexCol] }>
-          <Badge date={ item.date } color={ '#A7A7A7' }/>
-          <View style={ [S.pd10, S.flexRow, { justifyContent: 'flex-end' }] }>
-            <View style={ [S.pd5, { marginTop: -10, justifyContent: 'flex-end' }] }>
-              <View style={ [S.flexRow, S.mb5, { justifyContent: 'flex-end' }] }>
+          <Badge date={ item.date } color={ "#A7A7A7" }/>
+          <View style={ [S.pd10, S.flexRow, { justifyContent: "flex-end" }] }>
+            <View style={ [S.pd5, { marginTop: -10, justifyContent: "flex-end" }] }>
+              <View style={ [S.flexRow, S.mb5, { justifyContent: "flex-end" }] }>
                 <Label point={ 8000 }/>
                 <Normal title={ item.uname } color={ color.gray }/>
               </View>
-              <Message type={item.type} content={item.message} />
+              <Message type={ item.type } content={ item.message }/>
             </View>
             <TouchableOpacity activeOpacity={ 1 }
                               focusedOpacity={ 1 } style={ { marginLeft: 5 } }>
@@ -211,11 +226,11 @@ class Chat extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      )
+      );
     }
     return (
       <View style={ [S.flexCol] }>
-        <Badge date={ item.date } color={ '#A7A7A7' }/>
+        <Badge date={ item.date } color={ "#A7A7A7" }/>
         <View style={ [S.pd10, S.flexRow] }>
           <TouchableOpacity style={ [S.mr5] }>
             <Avatar uri={ item.avatar }/>
@@ -225,12 +240,12 @@ class Chat extends Component {
               <Label point={ 2000 }/>
               <Normal title={ item.uname } color={ color.gray }/>
             </View>
-            <Message type={item.type} content={item.message} out={item.out} />
+            <Message type={ item.type } content={ item.message } out={ item.out }/>
           </View>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -241,14 +256,14 @@ class Chat extends Component {
         { this.renderList() }
         <MessageContainer/>
       </SafeAreaView>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: "#F5FCFF"
   },
   loginBtn: {
     borderWidth: 1,
@@ -256,27 +271,29 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = (state: AppState) => ({
+  status: state.loginIn.status,
+  isSuccess: state.loginIn.isSuccess,
+  user: state.loginIn.user,
+  count: state.counter.count,
+  avatar: state.chat.avatar,
+  title: state.chat.title,
+  notice: state.chat.notice,
+  lists: state.chat.lists,
+  isRefresh: state.chat.isRefresh,
+  isEnd: state.chat.isEnd,
+  messageStr: state.messageMedia.messageStr,
+  showMessageModal: state.messageMedia.showMessageModal,
+  currentMessageMedia: state.messageMedia.currentMessageMedia,
+  error: state.messageMedia.error,
+  errorInfo: state.messageMedia.errorInfo,
+});
+
 export default connect(
-  (state) => ({
-    status: state.loginIn.status,
-    isSuccess: state.loginIn.isSuccess,
-    user: state.loginIn.user,
-    count: state.counter.count,
-    avatar: state.chat.avatar,
-    title: state.chat.title,
-    notice: state.chat.notice,
-    lists: state.chat.lists,
-    isRefresh: state.chat.isRefresh,
-    isEnd: state.chat.isEnd,
-    messageStr: state.messageMedia.messageStr,
-    showMessageModal: state.messageMedia.showMessageModal,
-    currentMessageMedia: state.messageMedia.currentMessageMedia,
-    error: state.messageMedia.error,
-    errorInfo: state.messageMedia.errorInfo,
-  }),
+  mapStateToProps,
   (dispatch) => ({
     login: () => dispatch(loginAction.login()),
     closeMessageModalFn: () => dispatch(messageMediaAction.closeMessageModalFn()),
     setIsEnd: (endStatus) => dispatch(chatAction.setIsEnd(endStatus))
   })
-)(Chat)
+)(Chat);

@@ -3,9 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Platform,
-  TouchableOpacity,
-  BackHandler,
   FlatList,
   Alert,
 } from 'react-native';
@@ -15,21 +12,40 @@ import { color, screen } from '../utils'
 import { TextTool, Avatar, Badge, TouchableCross, Btn ,StatusBars} from '../components'
 import { connect } from 'react-redux';
 import * as loginAction from '../actions/loginAction';
-import { NavigationActions, StackActions, SafeAreaView } from 'react-navigation';
+import { SafeAreaView,NavigationScreenProp, NavigationState, NavigationParams} from 'react-navigation';
 
-const { H4, Normal } = TextTool;
+const { H4 } = TextTool;
 
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Chat' })
-  ],
-});
+interface Props {
+  name: string;
+  navigation: NavigationScreenProp<NavigationState>;
+}
+
+interface messageListItem {
+    gid: string;
+    unread: number;
+    name: string;
+    avatar: string;
+    timeNum: string | number;
+    msg: string;
+}
+
+interface State {
+  data: messageListItem[];
+}
+
+
+// const resetAction = StackActions.reset({
+//   index: 0,
+//   actions: [
+//     NavigationActions.navigate({ routeName: 'Chat' })
+//   ],
+// });
 // FIXME: err
 // this.props.navigation.dispatch(resetAction);
 
-class ChatList extends Component {
+class ChatList extends Component<Props, State> {
   // static navigationOptions = ({ navigation, screenProps }) => ({
   //   headerLeft:
   //     <TouchableOpacity  onPress={() => navigation.toggleDrawer()}>
@@ -43,12 +59,12 @@ class ChatList extends Component {
   //   },
   // });
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       data: [
         {
-          gid: 1,
+          gid: '1',
           unread: 99,
           name: '摇曳百合',
           avatar: 'https://lain.bgm.tv/pic/cover/l/ec/f2/240193_36yPP.jpg',
@@ -56,7 +72,7 @@ class ChatList extends Component {
           msg: '2333'
         },
         {
-          gid: 1,
+          gid: '1',
           unread: 99,
           name: 'Anime/img',
           avatar: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4',
@@ -64,7 +80,7 @@ class ChatList extends Component {
           msg: '图片'
         },
         {
-          gid: 1,
+          gid: '1',
           unread: 99,
           name: '测试组',
           avatar: 'https://avatars0.githubusercontent.com/u/29087203?s=460&v=4',
@@ -78,18 +94,17 @@ class ChatList extends Component {
   componentDidMount() {
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // 登录完成,切成功登录
-    if (nextProps.status === '登陆成功' && nextProps.isSuccess) {
-      this.props.navigation.dispatch(resetAction)
-      return false;
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // 登录完成,切成功登录
+  //   if (nextProps.status === '登陆成功' && nextProps.isSuccess) {
+  //     this.props.navigation.dispatch(resetAction)
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
-  navigateTo = (routeName, ...params) => {
-    const { navigate } = this.props.navigation
-    navigate(routeName, ...params)
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params)
   };
 
   renderHeaderBar = () => (

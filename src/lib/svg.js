@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SvgUri from 'react-native-svg-uri';
-import svgs from '../../src/static/svgs';
+import svgs from '../static/svgs';
 import PropTypes from "prop-types";
 
 class SvgProperties {

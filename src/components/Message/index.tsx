@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
-import PropTypes from 'prop-types'
 import MessageText from './MessageText'
 import MessageSticker from './MessageSticker'
 import MessageImage from './MessageImage'
 import { H4 } from "../TextTool";
 
-class Message extends Component {
-  static propTypes = {
-    type: PropTypes.string,
-    content: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-      PropTypes.array,
-    ]),
-  }
+interface Props {
+  type: string;
+  content: object | string | string[]
+}
 
-  constructor(props) {
+interface State {
+  type: string;
+}
+
+class Message extends Component<Props, State> {
+  // static propTypes = {
+  //   type: PropTypes.string,
+  //   content: PropTypes.oneOfType([
+  //     PropTypes.object,
+  //     PropTypes.string,
+  //     PropTypes.array,
+  //   ]),
+  // }
+
+  constructor(props: Props) {
     super(props)
     this.state = {
       type: 'text'

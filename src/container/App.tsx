@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react'
 import {
-  View,
   Text,
-  ScrollView,
   StyleSheet,
-  Platform,
+  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import {
-  SafeAreaView,
-  DrawerItems,
   createStackNavigator,
-  createDrawerNavigator,
   createAppContainer,
+  createDrawerNavigator,
+  SafeAreaView,
+  DrawerItems
 } from 'react-navigation';
-import { Btn, Avatar } from '../components'
 import { color } from '../utils'
 import Svg from '../lib/svg'
 import LoginPage from '../pages/Login'
-import DrawerMenuPage from '../pages/DrawerMenu'
 import ChatListPage from '../pages/ChatList'
 import ChatPage from '../pages/Chat'
 import SettingPage from '../pages/Drawers/Setting'
@@ -26,7 +22,7 @@ import UserPage from '../pages/User'
 import GroupsPage from '../pages/Groups'
 import GroupDetailPage from '../pages/Groups/GroupDetail'
 import GroupUsersPage from '../pages/Groups/GroupUsers'
-import RecentPage from '../pages/recent'
+import { Avatar } from '../components';
 
 
 export const DrawerMenuStack = createDrawerNavigator({
@@ -58,7 +54,6 @@ export const DrawerMenuStack = createDrawerNavigator({
         <SafeAreaView forceInset={ { top: 'always', horizontal: 'never' } }>
           <TouchableOpacity  onPress={() => props.navigation.navigate('User')}
                              activeOpacity={1}
-                             focusedOpacity={1}
                              style={ styles.userContainer }>
             <Avatar size={ 60 }/>
             <Text style={ styles.uname }>TelegramR</Text>
@@ -78,7 +73,7 @@ const AppContainer = createStackNavigator({
   Groups: { screen: GroupsPage },
   GroupDetail: { screen: GroupDetailPage },
   GroupUsers: {screen: GroupUsersPage},
-  DrawerMenuStack
+  // DrawerMenuStack
 }, {
   navigationOptions: {
     gesturesEnabled: true,
@@ -87,12 +82,8 @@ const AppContainer = createStackNavigator({
   defaultNavigationOptions: {
     gesturesEnabled: true,
   },
-  // TODO: transition https://github.com/mochixuan/Mung/blob/master/Mung/app/App.js
-  // transitionConfig:(()=>({
-  //   screenInterpolator: CardStackStyleInterpolator.forHorizontal
-  // })),
   headerMode: 'none',
-  initialRouteName: 'Chat',
+  initialRouteName: 'ChatList',
   mode: 'card',
 })
 

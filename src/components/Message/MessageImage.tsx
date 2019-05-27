@@ -8,10 +8,18 @@ import PropTypes from 'prop-types'
 import { color, screen } from '../../utils'
 import S from "../../public/style";
 
-class ImageAuto extends Component {
-  static propTypes = {
-    uri: PropTypes.string.isRequired
-  }
+interface ImageAutoProps {
+  uri: string;
+}
+
+interface ImageAutoState {
+  imgWidth?: number;
+  imgHeight?: number;
+}
+class ImageAuto extends Component<ImageAutoProps, ImageAutoState> {
+  // static propTypes = {
+  //   uri: PropTypes.string.isRequired
+  // }
 
   state = {
     imgWidth: 0,
@@ -20,12 +28,13 @@ class ImageAuto extends Component {
 
   componentDidMount() {
     const { uri } = this.props
+    // @ts-ignore
     Image.getSize(`${ uri }`, (w, h) => {
-      if (w >= screen.width - 200) {
+      if (w >= screen.width - 120) {
         const scaleFactor = h / w
-        const imgHeight = scaleFactor * (screen.width - 200)
+        const imgHeight = scaleFactor * (screen.width - 120)
         this.setState({
-          imgWidth: screen.width - 200,
+          imgWidth: screen.width - 120,
           imgHeight
         })
       } else {
@@ -54,26 +63,43 @@ class ImageAuto extends Component {
 
 }
 
-class MessageSticker extends Component {
+interface ImgArr {
+  uri: string;
+}
+interface Props {
+  imgArr: ImgArr[];
+  out?: boolean;
+}
+
+interface State {
+
+}
+class MessageImage extends Component<Props, State> {
   static propTypes = {
-    uri: PropTypes.string.isRequired
+    imgArr: PropTypes.array.isRequired,
   }
 
-  constructor(props) {
+  constructor(props:Props) {
     super(props)
   }
 
   render() {
-    const { uri, out } = this.props
+    const { imgArr, out } = this.props
     return (
-      <View style={ [{
-        maxWidth: screen.width - 200,
+      <View style={ [out ? S.chatBubblesRight : S.chatBubblesLeft, S.shadow, {
+        backgroundColor: color.white,
+        maxWidth: screen.width - 120,
+        padding: 3
       }] }>
-        <ImageAuto uri={ uri }/>
+        {
+          imgArr.map((uri, index) => {
+            return <ImageAuto uri={ uri } key={ index }/>
+          })
+        }
       </View>
     )
   }
 }
 
 
-export default MessageSticker
+export default MessageImage

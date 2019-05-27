@@ -20,10 +20,29 @@ import S from '../../public/style'
 import { ImageAuto, ImageStickerAuto, TouchableCross, TextTool } from '../../components'
 import { color, screen } from '../../utils'
 
-const { H4, Normal } = TextTool;
+interface Props {
 
-class MessageMediaPhoto extends Component {
-  constructor(props) {
+}
+
+interface StickerItem {
+  uri: string
+}
+
+interface StickerItems {
+  id: string;
+  title: string;
+  thumb: string;
+  stickers: StickerItem[];
+}
+
+interface State {
+  currentId: string;
+  stickers: StickerItems[]
+}
+
+
+class MessageMediaPhoto extends Component<Props,State> {
+  constructor(props:Props) {
     super(props)
     this.state = {
       currentId: '1',
@@ -137,7 +156,7 @@ class MessageMediaPhoto extends Component {
     }
   }
 
-  setCurrentId = currentId => {
+  setCurrentId = (currentId: string) => {
     this.setState({
       currentId
     })

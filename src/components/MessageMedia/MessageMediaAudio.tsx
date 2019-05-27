@@ -16,17 +16,22 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
-  FlatList,
-  Image,
-  TextInput
 } from 'react-native';
 import S from '../../public/style'
 import Svg from "../../lib/svg";
-import {color,screen} from '../../utils'
+import {color} from '../../utils'
 
-class MessageMediaAudio extends Component {
-  constructor(props) {
+interface Props {
+
+}
+
+interface State {
+
+}
+
+
+class MessageMediaAudio extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
   }
   render() {

@@ -30,15 +30,10 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
-  Alert,
-  FlatList,
-  Image,
   TextInput,
-  Animated,
   Keyboard,
 } from 'react-native';
 import Modal from 'react-native-modal'
@@ -53,11 +48,18 @@ import { color, screen } from '../../utils'
 import { TouchableCross } from '../../components'
 import { connect } from "react-redux";
 import * as messageMediaAction from "../../actions/messageMediaAction";
-import messageMedia from "../../reducers/messageMediaReducer";
+// import messageMedia from "../../reducers/messageMediaReducer";
 
+interface Props {
 
-class MessageMedia extends Component {
-  constructor(props) {
+}
+
+interface State {
+
+}
+
+class MessageMedia extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
       messageStr: '',
@@ -68,7 +70,7 @@ class MessageMedia extends Component {
     }
   }
 
-  handleShowMessageMediaModal = (currentMessageMediaName) => {
+  handleShowMessageMediaModal = (currentMessageMediaName: string) => {
     const { showMessageModalFn, setMessageMedia } = this.props
     showMessageModalFn()
     setMessageMedia(currentMessageMediaName)
@@ -95,7 +97,7 @@ class MessageMedia extends Component {
     // ).start();
   }
 
-  handleSetCurrentMessageMedia = (currentMessageMediaName) => {
+  handleSetCurrentMessageMedia = (currentMessageMediaName: string) => {
     const { currentMessageMedia, closeMessageModalFn } = this.props;
     if (currentMessageMedia === currentMessageMediaName) {
       closeMessageModalFn()

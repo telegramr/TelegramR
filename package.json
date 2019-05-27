@@ -1,5 +1,5 @@
 {
-  "name": "telegramr",
+  "name": "TelegramR",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -20,7 +20,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
-    "react-native": "0.59.5",
+    "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
     "react-native-image-picker": "^0.28.1",
     "react-native-modal": "^10.0.0",
@@ -28,20 +28,28 @@
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-svg": "^9.4.0",
     "react-native-svg-uri": "^1.2.3",
-    "react-native-webview": "^5.8.1",
-    "react-navigation": "^3.9.1",
+    "react-native-webview": "^5.10.0",
+    "react-navigation": "^3.11.0",
     "react-redux": "^7.0.3",
     "redux": "^4.0.1",
     "redux-chunk": "^1.0.11",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/runtime": "^7.4.4",
-    "babel-jest": "^24.7.1",
-    "jest": "^24.7.1",
-    "metro-react-native-babel-preset": "^0.54.0",
-    "react-test-renderer": "16.8.3"
+    "@babel/core": "^7.4.5",
+    "@babel/runtime": "^7.4.5",
+    "@types/jest": "^24.0.13",
+    "@types/react": "^16.8.18",
+    "@types/react-native": "^0.57.60",
+    "@types/react-navigation": "^3.0.7",
+    "@types/react-redux": "^7.0.9",
+    "@types/react-test-renderer": "^16.8.1",
+    "@types/redux-actions": "^2.6.1",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.54.1",
+    "react-test-renderer": "16.8.3",
+    "typescript": "^3.4.5"
   },
   "jest": {
     "preset": "react-native"

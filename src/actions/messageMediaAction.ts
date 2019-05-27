@@ -4,14 +4,14 @@ import * as types from '../constants/Types';
 import { addChatMessage, setIsEnd } from "./chatAction";
 
 
-export function setMessageStr(messageStr) {
+export function setMessageStr(messageStr: string) {
   return {
     type: types.SET_MESSAGESTR,
     messageStr
   }
 }
 
-export function setMessageMedia(currentMessageMedia) {
+export function setMessageMedia(currentMessageMedia: string) {
   console.log(currentMessageMedia)
   return {
     type: types.SET_MESSAGEMEDIA,
@@ -62,7 +62,7 @@ export function closeMessageModalFn() {
   }
 }
 
-function sendSuccess(messageStr) {
+function sendSuccess(messageStr: string) {
   console.log('success', messageStr);
   const newMessageObj = {
     id: '1',

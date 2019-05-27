@@ -5,33 +5,25 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-  Alert,
-  ImageBackground,
-  Image,
-  ScrollView,
   StatusBar
 } from 'react-native';
-import { connect } from 'react-redux';
 import { Avatar, Btn, Label, TouchableCross, Separator } from '../../components'
-import * as loginAction from '../../actions/loginAction';
-import { NavigationActions, SafeAreaView, StackActions, } from 'react-navigation';
+import { SafeAreaView, NavigationScreenProp, NavigationState, NavigationParams} from 'react-navigation';
 import S from "../../public/style";
 import { color, screen } from "../../utils";
 import Svg from "../../lib/svg";
-import { H2, H4, Normal } from "../../components/TextTool";
+import { H4 } from "../../components/TextTool";
 
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Main' })
-  ],
-});
+interface Props {
+  navigation: NavigationScreenProp<NavigationState>;
+}
 
-export default class GroupUsers extends Component {
-  constructor(props) {
+interface State {
+}
+
+export default class GroupUsers extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
       showSearch: false,
@@ -84,9 +76,8 @@ export default class GroupUsers extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
   }
 
-  navigateTo = (routeName, ...params) => {
-    const { navigate } = this.props.navigation
-    navigate(routeName, ...params)
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params)
   };
 
   handleShowSearch = () => {

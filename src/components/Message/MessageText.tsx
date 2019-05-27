@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity
 } from 'react-native'
-import PropTypes from 'prop-types'
 import { H4 } from "../TextTool";
 import S from "../../public/style";
 import { color, screen } from "../../utils";
 
-class MessageText extends Component {
-  static propTypes = {
-    messageStr: PropTypes.string,
-  }
+interface Props {
+    messageStr: string;
+    out?: boolean;
+}
 
-  constructor(props) {
+interface State {
+
+}
+class MessageText extends Component<Props, State> {
+
+  constructor(props: Props) {
     super(props)
   }
 
