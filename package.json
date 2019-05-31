@@ -21,8 +21,10 @@
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.8",
+    "react-native-fs": "^2.13.3",
     "react-native-gesture-handler": "^1.2.1",
     "react-native-image-picker": "^0.28.1",
+    "react-native-image-zoom-viewer": "^2.2.26",
     "react-native-modal": "^10.0.0",
     "react-native-popup-dialog": "^0.18.2",
     "react-native-scrollable-tab-view": "^0.10.0",
@@ -33,7 +35,8 @@
     "react-redux": "^7.0.3",
     "redux": "^4.0.1",
     "redux-chunk": "^1.0.11",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.10.15"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -254,7 +254,7 @@ class Chat extends Component<Props, State> {
         { this.renderHeaderBar() }
         { this.renderNotice() }
         { this.renderList() }
-        <MessageContainer/>
+        <MessageContainer navigation={this.props.navigation}/>
       </SafeAreaView>
     );
   }

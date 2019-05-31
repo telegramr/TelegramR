@@ -36,9 +36,8 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import Modal from 'react-native-modal'
+// import Modal from 'react-native-modal'
 import ImagePicker from "react-native-image-picker"
-// TODO: add 'react-native-fs' & 'react-native-fetch-blob'
 import MessageMediaAudio from './MessageMediaAudio'
 import MessageMediaSticker from './MessageMediaSticker'
 import MessageMediaPhoto from './MessageMediaPhoto'
@@ -48,10 +47,11 @@ import { color, screen } from '../../utils'
 import { TouchableCross } from '../../components'
 import { connect } from "react-redux";
 import * as messageMediaAction from "../../actions/messageMediaAction";
+import { NavigationParams, NavigationScreenProp, NavigationState } from "react-navigation";
 // import messageMedia from "../../reducers/messageMediaReducer";
 
 interface Props {
-
+  navigation: NavigationScreenProp<NavigationState>;
 }
 
 interface State {
@@ -69,6 +69,10 @@ class MessageMedia extends Component<Props, State> {
       // fadeInUp: new Animated.Value(0)
     }
   }
+
+  private navigateTo = (routeName: string, params?: NavigationParams) => {
+    this.props.navigation.navigate(routeName, params);
+  };
 
   handleShowMessageMediaModal = (currentMessageMediaName: string) => {
     const { showMessageModalFn, setMessageMedia } = this.props
@@ -169,39 +173,39 @@ class MessageMedia extends Component<Props, State> {
       case 'MessageMediaSticker':
         return <MessageMediaSticker/>
       case 'MessageMediaPhoto':
-        return <MessageMediaPhoto/>
+        return <MessageMediaPhoto navigation={this.props.navigation}/>
       default:
         return null
     }
   }
 
   // TODO: modal 弹出层，已废弃
-  renderModal = () => {
-    const { messageStr, showMessageModal, currentMessageMedia } = this.props;
-    return (
-      <Modal
-        isVisible={ showMessageModal }
-        closeOnClick={ true }
-        transparent={ true }
-        onBackdropPress={ () => this.setState({ showMessageModal: false }) }
-        // backdropOpacity={0}
-        onRequestClose={ this.closeMessageMediaModal }
-        swipeDirection='down'
-        onModalWillHide={ this.closeMessageMediaModal }
-        deviceHeight={ screen.height - 100 }
-        style={ {
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          margin: 0,
-          height: 180
-        } }
-      >
-        <View style={ [styles.messageContainer, S.borderTopOne] }>
-          { this.renderCurrentMessageMedia() }
-        </View>
-      </Modal>
-    )
-  }
+  // renderModal = () => {
+  //   const { messageStr, showMessageModal, currentMessageMedia } = this.props;
+  //   return (
+  //     <Modal
+  //       isVisible={ showMessageModal }
+  //       closeOnClick={ true }
+  //       transparent={ true }
+  //       onBackdropPress={ () => this.setState({ showMessageModal: false }) }
+  //       // backdropOpacity={0}
+  //       onRequestClose={ this.closeMessageMediaModal }
+  //       swipeDirection='down'
+  //       onModalWillHide={ this.closeMessageMediaModal }
+  //       deviceHeight={ screen.height - 100 }
+  //       style={ {
+  //         flexDirection: 'column',
+  //         justifyContent: 'flex-end',
+  //         margin: 0,
+  //         height: 180
+  //       } }
+  //     >
+  //       <View style={ [styles.messageContainer, S.borderTopOne] }>
+  //         { this.renderCurrentMessageMedia() }
+  //       </View>
+  //     </Modal>
+  //   )
+  // }
 
   render() {
     const {
@@ -260,8 +264,8 @@ class MessageMedia extends Component<Props, State> {
           <TouchableOpacity onPress={this.selectPhotoTapped} style={ [S.btnContainer, styles.menuBtn] }>
             <Svg icon="camera" size="27" color={ color.gray }/>
           </TouchableOpacity>
-          <TouchableOpacity style={ [S.btnContainer, styles.menuBtn] }>
-            <Svg icon="file" size="23" color={ color.gray }/>
+          <TouchableOpacity  onPress={ () => this.navigateTo("FileSystem") } style={ [S.btnContainer, styles.menuBtn] }>
+            <Svg icon="folder" size="27" color={ color.gray }/>
           </TouchableOpacity>
           <TouchableOpacity style={ [S.btnContainer, styles.menuBtn] }>
             <Svg icon="phone" size="26" color={ color.gray }/>

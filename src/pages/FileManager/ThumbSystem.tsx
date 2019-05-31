@@ -1,18 +1,3 @@
-/**
- * @param    id             {long}                Photo identifier
- * @param    access_hash    {long}                Checksum dependent on photo identifier
- * @param    user_id        {int}                 Photo sender
- * @param    date           {int}                 Date created
- * @param    caption        {string}              Text description
- * @param    geo            {GeoPoint}            GeoPoint
- * @param    sizes          {Vector<PhotoSize}>   List of available images
- * */
-
-/**
- * @type GeoPoint
- * @param long  {double}  Longtitude
- * @param lat  {double}  Latitude
- * */
 import React, { Component } from "react";
 import {
   View,
@@ -20,18 +5,17 @@ import {
   TouchableOpacity,
   FlatList,
   CameraRoll,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from "react-native";
 // import * as RNFS from "react-native-fs";
 import S from "../../public/style";
-import { ImageAuto, TouchableCross } from "../../components";
-import { color, util } from "../../utils";
-import { TextTool } from "../index";
+import { ImageAuto, TouchableCross, Btn, StatusBars } from "../../components";
+import { color, screen, util } from "../../utils";
 import { connect } from "react-redux";
 import * as messageMediaAction from "../../actions/messageMediaAction";
 import { NavigationParams, NavigationScreenProp, NavigationState } from "react-navigation";
-
-const { H4 } = TextTool;
+import { H2, H4 } from "../../components/TextTool";
+import Svg from "../../lib/svg";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
@@ -71,7 +55,7 @@ class MessageMediaPhoto extends Component<Props, State> {
 
   requestReadPermission = async () => {
     const isChecked = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-    console.log(isChecked)
+    console.log(isChecked);
     if (isChecked) return;
     try {
       const granted = await PermissionsAndroid.request(
@@ -94,11 +78,10 @@ class MessageMediaPhoto extends Component<Props, State> {
     }
   };
 
-  // see https://reactnative.cn/docs/cameraroll/
   getRecentPhotos = async () => {
     await this.requestReadPermission();
     CameraRoll.getPhotos({
-      first: 20,
+      first: 500,
       assetType: "Photos",
     })
       .then(r => {
@@ -121,7 +104,6 @@ class MessageMediaPhoto extends Component<Props, State> {
       _selectedPhotos.push({ uri, timestamp: Date.now() });
     }
     _selectedPhotos = _selectedPhotos.sort(util.sortBy("timestamp", true));
-    console.log(_selectedPhotos);
     this.setState({
       selectedPhotos: _selectedPhotos
     });
@@ -138,6 +120,12 @@ class MessageMediaPhoto extends Component<Props, State> {
     return num;
   };
 
+  handleClear = () => {
+    this.setState({
+      selectedPhotos: []
+    });
+  };
+
   handleSendPhoto = () => {
     const { sendMessageMedia } = this.props;
     const { selectedPhotos } = this.state;
@@ -146,18 +134,22 @@ class MessageMediaPhoto extends Component<Props, State> {
     this.setState({
       selectedPhotos: []
     });
+    this.props.navigation.goBack();
   };
 
   renderPicItem = ({ item, index }) => {
     return (
-      <TouchableOpacity onPress={ () => this.selectPhoto(item.uri) } style={ [styles.imgItem, S.flexCenter] }>
-        <ImageAuto height={ 136 } uri={ item.uri }/>
-        { this.renderCheckNum(item.uri) }
-      </TouchableOpacity>
+      <TouchableCross feed={ true } onPress={ () => this.selectPhoto(item.uri) }
+                      style={ [styles.imgItem, S.flexCenter] }>
+        <View style={ [S.flexCenter, styles.imageContainer] }>
+          <ImageAuto height={ screen.width / 3 - 3 } uri={ item.uri }/>
+          { this.renderCheckNum(item.uri) }
+        </View>
+      </TouchableCross>
     );
   };
 
-  renderCheckNum(uri) {
+  renderCheckNum(uri: string) {
     if (this.computedIndex(uri)) {
       return (
         <TouchableOpacity style={ [styles.itemNum, S.flexCenter] }>
@@ -167,26 +159,59 @@ class MessageMediaPhoto extends Component<Props, State> {
     }
   }
 
+  renderHeaderBar = () => {
+    const { selectedPhotos } = this.state;
+    if (selectedPhotos.length) {
+      return (
+        <View style={ [S.flexSB, S.flexAIC, S.pd8, {
+          height: 48,
+          backgroundColor: "#333",
+          borderBottomWidth: screen.onePixel
+        }] }>
+          <View style={ [S.flex, S.flexCenter, { width: 30, height: 30, position: "absolute", left: 8 }] }>
+            <Btn circular={ true } onPress={ this.handleClear }>
+              <Svg icon="close" size="20" color={ "#fff" }/>
+            </Btn>
+          </View>
+          <View style={ [S.flexCenter, { position: "absolute", left: 50 }] }>
+            <H2 title={ selectedPhotos.length } color={ "#fff" }/>
+          </View>
+          <View style={ [S.flex, S.flexCenter, { width: 30, height: 30, position: "absolute", right: 8 }] }>
+            <Btn circular={ true } onPress={ this.handleSendPhoto }>
+              <Svg icon="check" size="22" color={ "#fff" }/>
+            </Btn>
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View style={ [S.flexSB, S.flexAIC, S.pd8, { height: 48, backgroundColor: "#333" }] }>
+        <View style={ [S.flex, S.flexCenter, { width: 30, height: 30, position: "absolute", left: 8 }] }>
+          <Btn circular={ true } onPress={ () => this.props.navigation.goBack() }>
+            <Svg icon="arrowleft" color={ "#fff" } size="22"/>
+          </Btn>
+        </View>
+        <View style={ [S.flexCenter, { position: "absolute", left: 50 }] }>
+          <H2 title={ "最近文件" } color={ "#fff" }/>
+        </View>
+      </View>
+    );
+  };
+
   render() {
     const { photos, selectedPhotos } = this.state;
     return (
       <View style={ styles.container }>
+        <StatusBars backgroundColor={ "#333" }/>
+        { this.renderHeaderBar() }
         <FlatList
           data={ photos }
           extraData={ this.state }
           keyExtractor={ (item, index) => `${ index }` }
           renderItem={ this.renderPicItem }
-          horizontal={ true }
+          numColumns={ 3 }
           showsHorizontalScrollIndicator={ false }
         />
-        <View style={ [S.inputBar, styles.inputMenu] }>
-          <TouchableCross onPress={() => this.navigateTo('ThumbSystem')}>
-            <H4 color={ color.blueLight }>相册</H4>
-          </TouchableCross>
-          <TouchableCross onPress={ this.handleSendPhoto } disabled={ !selectedPhotos.length }>
-            <H4 color={ color.blueLight }>发送({ selectedPhotos.length })</H4>
-          </TouchableCross>
-        </View>
       </View>
     );
   }
@@ -201,16 +226,25 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    height: 180,
-    flexDirection: "column"
+    flex: 1,
+    backgroundColor: "#000",
   },
   imgItem: {
-    marginHorizontal: 2,
+    width: screen.width / 3 - 3,
+    marginVertical: 1,
+    overflow: "hidden",
+    paddingBottom: 1,
+    marginHorizontal: 1,
   },
   inputMenu: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  imageContainer: {
+    width: screen.width / 3 - 3,
+    height: screen.width / 3 - 3,
+    overflow: "hidden",
   },
   itemNum: {
     width: 22,
