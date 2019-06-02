@@ -4,10 +4,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ListRenderItemInfo,
   CameraRoll,
   PermissionsAndroid,
 } from "react-native";
-// import * as RNFS from "react-native-fs";
 import S from "../../public/style";
 import { ImageAuto, TouchableCross, Btn, StatusBars } from "../../components";
 import { color, screen, util } from "../../utils";
@@ -22,7 +22,10 @@ interface Props {
 }
 
 interface Photos {
-  uri: string
+  uri: string;
+  width: number;
+  height: number;
+  hash: string;
 }
 
 interface SelectedPhotos extends Photos {
@@ -47,11 +50,6 @@ class MessageMediaPhoto extends Component<Props, State> {
   componentDidMount() {
     this.getRecentPhotos();
   }
-
-  private navigateTo = (routeName: string, params?: NavigationParams) => {
-    this.props.navigation.navigate(routeName, params);
-  };
-
 
   requestReadPermission = async () => {
     const isChecked = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
@@ -95,17 +93,16 @@ class MessageMediaPhoto extends Component<Props, State> {
       });
   };
 
-  selectPhoto = (uri: string) => {
-    const { selectedPhotos } = this.state;
-    let _selectedPhotos = selectedPhotos;
-    if (_selectedPhotos.some(item => item.uri === uri)) {
-      _selectedPhotos = _selectedPhotos.filter(i => i.uri !== uri);
+  selectPhoto = (uri: string, width: number, height: number, hash: string = "") => {
+    let { selectedPhotos } = this.state;
+    if (selectedPhotos.some(item => item.uri === uri)) {
+      selectedPhotos = selectedPhotos.filter(i => i.uri !== uri);
     } else {
-      _selectedPhotos.push({ uri, timestamp: Date.now() });
+      selectedPhotos.push({ uri, width, height, hash, timestamp: Date.now() });
     }
-    _selectedPhotos = _selectedPhotos.sort(util.sortBy("timestamp", true));
+    selectedPhotos = selectedPhotos.sort(util.sortBy("timestamp", true));
     this.setState({
-      selectedPhotos: _selectedPhotos
+      selectedPhotos
     });
   };
 
@@ -129,18 +126,17 @@ class MessageMediaPhoto extends Component<Props, State> {
   handleSendPhoto = () => {
     const { sendMessageMedia } = this.props;
     const { selectedPhotos } = this.state;
-    const photos = selectedPhotos.map(i => i.uri);
-    sendMessageMedia(photos);
+    sendMessageMedia({ img: selectedPhotos });
     this.setState({
       selectedPhotos: []
     });
     this.props.navigation.goBack();
   };
 
-  renderPicItem = ({ item, index }) => {
+  renderPicItem = ({ item }: ListRenderItemInfo<Photos>) => {
     return (
-      <TouchableCross feed={ true } onPress={ () => this.selectPhoto(item.uri) }
-                      style={ [styles.imgItem, S.flexCenter] }>
+      <TouchableCross onPress={ () => this.selectPhoto(item.uri, item.width, item.height, item.hash) }
+                        style={ [styles.imgItem, S.flexCenter] }>
         <View style={ [S.flexCenter, styles.imageContainer] }>
           <ImageAuto height={ screen.width / 3 - 3 } uri={ item.uri }/>
           { this.renderCheckNum(item.uri) }
@@ -199,7 +195,7 @@ class MessageMediaPhoto extends Component<Props, State> {
   };
 
   render() {
-    const { photos, selectedPhotos } = this.state;
+    const { photos } = this.state;
     return (
       <View style={ styles.container }>
         <StatusBars backgroundColor={ "#333" }/>
@@ -207,7 +203,7 @@ class MessageMediaPhoto extends Component<Props, State> {
         <FlatList
           data={ photos }
           extraData={ this.state }
-          keyExtractor={ (item, index) => `${ index }` }
+          keyExtractor={ (_item, index) => `${ index }` }
           renderItem={ this.renderPicItem }
           numColumns={ 3 }
           showsHorizontalScrollIndicator={ false }
@@ -218,7 +214,7 @@ class MessageMediaPhoto extends Component<Props, State> {
 }
 
 export default connect(
-  (state) => ({}),
+  () => ({}),
   (dispatch) => ({
     sendMessageMedia: (messageObj, mediaType = "img") => dispatch(messageMediaAction.sendMessageMedia(messageObj, mediaType))
   })

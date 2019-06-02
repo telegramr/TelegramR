@@ -38,6 +38,7 @@ import {
 } from 'react-native';
 // import Modal from 'react-native-modal'
 import ImagePicker from "react-native-image-picker"
+import {ImageContentTypes} from '../../types'
 import MessageMediaAudio from './MessageMediaAudio'
 import MessageMediaSticker from './MessageMediaSticker'
 import MessageMediaPhoto from './MessageMediaPhoto'
@@ -141,10 +142,15 @@ class MessageMedia extends Component<Props, State> {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const photos = [
-          response.uri
-        ]
-        sendMessageMedia(photos, 'img')
+        console.log('response', response)
+        const photos: ImageContentTypes = {
+          width: response.width,
+          height: response.height,
+          uri: response.uri,
+          size: response.fileSize,
+          hash: ''
+        }
+        sendMessageMedia({img: [photos]}, 'img')
         // TODO: add upload file api
         // let file = {
         //   uri: response.uri,

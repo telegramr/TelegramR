@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {MessageContentTypes} from "../../types";
 import MessageText from './MessageText'
 import MessageSticker from './MessageSticker'
 import MessageImage from './MessageImage'
@@ -6,7 +7,8 @@ import { H4 } from "../TextTool";
 
 interface Props {
   type: string;
-  content: object | string | string[]
+  content: MessageContentTypes;
+  out: boolean;
 }
 
 interface State {
@@ -14,15 +16,6 @@ interface State {
 }
 
 class Message extends Component<Props, State> {
-  // static propTypes = {
-  //   type: PropTypes.string,
-  //   content: PropTypes.oneOfType([
-  //     PropTypes.object,
-  //     PropTypes.string,
-  //     PropTypes.array,
-  //   ]),
-  // }
-
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -34,11 +27,11 @@ class Message extends Component<Props, State> {
     const { type = 'text', content, out } = this.props
     switch (type) {
       case 'text':
-        return <MessageText messageStr={ content } out={ out }/>
+        return <MessageText text={ content.text } out={ out }/>
       case 'sticker':
-        return <MessageSticker uri={ content } out={ out }/>
+        return <MessageSticker sticker={ content.sticker } out={ out }/>
       case 'img':
-        return <MessageImage imgArr={ content } out={ out }/>
+        return <MessageImage img={ content.img } out={ out }/>
       default:
         return <H4 title={ '不支持此类消息' }/>
     }

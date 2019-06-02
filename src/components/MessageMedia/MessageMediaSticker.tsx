@@ -12,27 +12,24 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
-} from 'react-native';
+  FlatList, ListRenderItemInfo,
+} from "react-native";
 import { connect } from 'react-redux';
+import {StickerContentTypes} from '../../types'
 import * as messageMediaAction from '../../actions/messageMediaAction'
 import S from '../../public/style'
-import { ImageAuto, ImageStickerAuto, TouchableCross, TextTool } from '../../components'
+import { ImageAuto, ImageStickerAuto, TouchableCross } from '../../components'
 import { color, screen } from '../../utils'
 
 interface Props {
 
 }
 
-interface StickerItem {
-  uri: string
-}
-
 interface StickerItems {
   id: string;
   title: string;
   thumb: string;
-  stickers: StickerItem[];
+  stickers: StickerContentTypes[];
 }
 
 interface State {
@@ -50,16 +47,16 @@ class MessageMediaPhoto extends Component<Props,State> {
         {
           id: '1', title: 'aaa', thumb: 'https://i0.hdslb.com/bfs/album/1ed54435efcef302bb5582d49447c7d0d75d1a99.jpg',
           stickers: [
-            { uri: 'https://i0.hdslb.com/bfs/album/1ed54435efcef302bb5582d49447c7d0d75d1a99.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/1af4d7b6e578b485a611ecfff0ee49626ac0d75a.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/020b87c07f6e304750bf6f73fd5c271c3118a708.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/3ddf77cf601431bea568c38ae3d80bc341ca6e1a.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/dedbb88fb4ce6085e5b2b710acd2f49be35e9d28.jpg' },
-            { uri: 'https://i0.hdslb.com/bfs/album/32b6d76c36fb45c37133efa42a6f2bb76528c542.jpg@2000w_1e.webp' },
-            { uri: 'https://i0.hdslb.com/bfs/album/1d0480153e7f5957c792d40b4f3570cbb6f6a416.jpg@2000w_1e.webp' }
+            { uri: 'https://i0.hdslb.com/bfs/album/1ed54435efcef302bb5582d49447c7d0d75d1a99.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/1af4d7b6e578b485a611ecfff0ee49626ac0d75a.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/020b87c07f6e304750bf6f73fd5c271c3118a708.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/3ddf77cf601431bea568c38ae3d80bc341ca6e1a.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/1821a0c7cc6304bde4cc2e39e2a50b8a2e5a27c1.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/dedbb88fb4ce6085e5b2b710acd2f49be35e9d28.jpg', width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/32b6d76c36fb45c37133efa42a6f2bb76528c542.jpg@2000w_1e.webp' ,width: 30, height: 30,hash: '', size: 1024},
+            { uri: 'https://i0.hdslb.com/bfs/album/1d0480153e7f5957c792d40b4f3570cbb6f6a416.jpg@2000w_1e.webp' ,width: 30, height: 30,hash: '', size: 1024}
           ]
         },
         {
@@ -162,10 +159,10 @@ class MessageMediaPhoto extends Component<Props,State> {
     })
   }
 
-  renderPicItem = ({ item, index }) => {
+  renderPicItem = ({ item }: ListRenderItemInfo<StickerContentTypes>) => {
     const { sendMessageMedia } = this.props
     return (
-      <TouchableOpacity onPress={() =>  sendMessageMedia(item.uri )}
+      <TouchableOpacity onPress={() =>  sendMessageMedia({sticker: item} )}
         activeOpacity={ 0.9 }
         style={ [S.flexCenter, { width: (screen.width - 2 * 10) / 5, margin: 2 }] }>
         <ImageStickerAuto uri={ item.uri }/>
@@ -227,7 +224,7 @@ class MessageMediaPhoto extends Component<Props,State> {
 }
 
 export default connect(
-  (state) => ({
+  () => ({
   }),
   (dispatch) => ({
     sendMessageMedia: (messageObj, mediaType = 'sticker') => dispatch(messageMediaAction.sendMessageMedia(messageObj, mediaType))

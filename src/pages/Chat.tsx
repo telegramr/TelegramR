@@ -7,11 +7,13 @@ import {
   Platform,
   BackHandler,
   FlatList,
+  ListRenderItemInfo
 } from "react-native";
 import S from "../public/style";
 import Message from "../components/Message";
 import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from "../components";
 import { connect } from "react-redux";
+import {MessageTypes} from "../types";
 import { AppState } from "../store/ConfigureStore";
 import * as loginAction from "../actions/loginAction";
 import * as messageMediaAction from "../actions/messageMediaAction";
@@ -126,7 +128,6 @@ class Chat extends Component<Props, State> {
     return (
       <View style={ [S.flexSA, S.flexAIC, S.pd5, { backgroundColor: color.white }] }>
         <TouchableOpacity activeOpacity={ 1 }
-                          focusedOpacity={ 1 }
                           style={ [S.flexRow, { width: screen.width - 20 }] }>
           <View style={ [{ backgroundColor: color.theme, width: 2, margin: 5 }] }/>
           <View>
@@ -183,12 +184,12 @@ class Chat extends Component<Props, State> {
         data={ lists }
         extraData={ this.state }
         onTouchStart={ this.closeMessageMediaModal }
-        keyExtractor={ (item, index) => `${ index }` }
+        keyExtractor={ (_item, index) => `${ index }` }
         showsHorizontalScrollIndicator={ false }
         removeClippedSubviews={ true }
         // ListHeaderComponent={this.renderHeader()}
         ListFooterComponent={ this.renderListFooter }
-        renderItem={ (item) => this.renderChatItem(item) }
+        renderItem={ this.renderChatItem }
         onRefresh={ this._onRefresh }
         refreshing={ isRefresh }
         // onEndReached={() => this._onLoadMore()}
@@ -207,7 +208,7 @@ class Chat extends Component<Props, State> {
   };
 
 
-  renderChatItem = ({ item, index }) => {
+  renderChatItem = ({ item, index }: ListRenderItemInfo<MessageTypes>) => {
     if (item.out) {
       return (
         <View style={ [S.flexCol] }>
@@ -220,8 +221,7 @@ class Chat extends Component<Props, State> {
               </View>
               <Message type={ item.type } content={ item.message }/>
             </View>
-            <TouchableOpacity activeOpacity={ 1 }
-                              focusedOpacity={ 1 } style={ { marginLeft: 5 } }>
+            <TouchableOpacity activeOpacity={ 1 } style={ { marginLeft: 5 } }>
               <Avatar uri={ item.avatar }/>
             </TouchableOpacity>
           </View>
@@ -265,10 +265,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5FCFF"
   },
-  loginBtn: {
-    borderWidth: 1,
-    padding: 5,
-  }
 });
 
 const mapStateToProps = (state: AppState) => ({

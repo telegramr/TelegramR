@@ -7,11 +7,12 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import PropTypes from "prop-types";
 import ImageViewer from "react-native-image-zoom-viewer";
 // import { Modal } from "react-native-modal";
+import {ImageContentTypes} from "../../types";
 import { color, screen } from "../../utils";
 import S from "../../public/style";
+
 
 interface ImageAutoProps {
   uri: string;
@@ -73,8 +74,8 @@ interface ImgViewerArr {
 }
 
 interface Props {
-  imgArr: string[];
-  out?: boolean;
+  img: ImageContentTypes[];
+  out: boolean;
 }
 
 interface State {
@@ -83,10 +84,6 @@ interface State {
 }
 
 class MessageImage extends Component<Props, State> {
-  static propTypes = {
-    imgArr: PropTypes.array.isRequired,
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -124,10 +121,10 @@ class MessageImage extends Component<Props, State> {
   };
 
   render() {
-    const { imgArr, out } = this.props;
+    let { img, out } = this.props;
     let imgViewerArr: ImgViewerArr[] = [];
-    imgArr.map(i => {
-      imgViewerArr.push({ url: i });
+    img.map(i => {
+      imgViewerArr.push({url: i.uri});
     });
     /**
      * TODO: add ImageViewer menu
@@ -140,9 +137,9 @@ class MessageImage extends Component<Props, State> {
         padding: 3
       }] }>
         {
-          imgArr.map((uri, index) => {
+          img.map((i, index) => {
             return (
-              <ImageAuto uri={ uri }
+              <ImageAuto {...i}
                          key={ index }
                          index={ index }
                          showViewer={ this.showViewer }
