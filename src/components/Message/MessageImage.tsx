@@ -3,21 +3,22 @@ import {
   View,
   Text,
   Image,
-  Modal,
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import ImageViewer from "react-native-image-zoom-viewer";
-// import { Modal } from "react-native-modal";
-import {ImageContentTypes} from "../../types";
+import {connect} from "react-redux";
+import { ImageContentTypes, ImgViewerArrTypes } from "../../types";
 import { color, screen } from "../../utils";
 import S from "../../public/style";
+import * as imageViewerAction from "../../actions/imageViewerAction";
+import { ImageViewerActionTypes } from "../../reducers/imageViewerReducer";
 
 
 interface ImageAutoProps {
   uri: string;
   index: number;
-  showViewer: void;
+  showImgViewer: typeof imageViewerAction.showImgViewer;
+  img: ImageContentTypes[];
 }
 
 interface ImageAutoState {
@@ -52,30 +53,32 @@ class ImageAuto extends Component<ImageAutoProps, ImageAutoState> {
   }
 
   render() {
+    const { showImgViewer, index, uri, img} = this.props
     const { imgWidth, imgHeight } = this.state;
+    let imgViewerArr = []
+    img.map(i => {
+      imgViewerArr.push({url: i.uri})
+    })
+    const imgViewObj = {
+      index,
+      imgViewerArr
+    }
     return (
-      <TouchableWithoutFeedback onPress={ () => this.props.showViewer(this.props.index) }
+      <TouchableWithoutFeedback onPress={ () => showImgViewer(imgViewObj) }
                                 style={ { marginBottom: 5 } }>
-        <Image style={ { width: imgWidth, height: imgHeight } } source={ { uri: `${ this.props.uri }` } }/>
+        <Image style={ { width: imgWidth, height: imgHeight } } source={ { uri } }/>
       </TouchableWithoutFeedback>
     );
-  }
-}
-
-interface ImgViewerArr {
-  url: string;
-  width?: number;
-  height?: number;
-  // Optional, if you know the image size, you can set the optimization performance
-  // You can pass props to <Image />.
-  props?: {
-    // headers: ...
   }
 }
 
 interface Props {
   img: ImageContentTypes[];
   out: boolean;
+  showImageViewer: boolean;
+  index: number;
+  imgViewerArr: ImgViewerArrTypes[];
+  showImgViewer: typeof imageViewerAction.showImgViewer;
 }
 
 interface State {
@@ -91,10 +94,6 @@ class MessageImage extends Component<Props, State> {
       modalVisible: false
     };
   }
-
-  showViewer = (index: number) => {
-    this.setState({ modalVisible: true, index });
-  };
 
   _closeModal = () => {
     this.setState({
@@ -121,15 +120,7 @@ class MessageImage extends Component<Props, State> {
   };
 
   render() {
-    let { img, out } = this.props;
-    let imgViewerArr: ImgViewerArr[] = [];
-    img.map(i => {
-      imgViewerArr.push({url: i.uri});
-    });
-    /**
-     * TODO: add ImageViewer menu
-     * see https://github.com/ascoders/react-native-image-viewer/pull/307
-     * */
+    const { out, imgViewerArr, showImgViewer, img } = this.props;
     return (
       <View style={ [out ? S.chatBubblesRight : S.chatBubblesLeft, S.shadow, {
         backgroundColor: color.white,
@@ -137,37 +128,45 @@ class MessageImage extends Component<Props, State> {
         padding: 3
       }] }>
         {
-          img.map((i, index) => {
+          img.map((i, _index) => {
             return (
               <ImageAuto {...i}
-                         key={ index }
-                         index={ index }
-                         showViewer={ this.showViewer }
+                         key={ _index }
+                         index={ _index }
+                         img={img}
+                         showImgViewer={ showImgViewer }
               />
             );
           })
         }
-        <Modal
-          visible={ this.state.modalVisible }
-          transparent={ true }
-          onRequestClose={ () => this.setState({ modalVisible: false }) }>
-          <ImageViewer imageUrls={ imgViewerArr }
-                       index={ this.state.index || 0 }
-                       menuContext={ { saveToLocal: "保存到本地相册", cancel: "取消" } }
-                       onClick={ this._closeModal }
-                       onSave={ this._saveImg }
-                       enableSwipeDown={ true }
-                       onSwipeDown={ this._closeModal }
-                       loadingRender={this._renderLoading}
-                       // menus={({cancel,saveToLocal})=><Menus cancel={cancel} saveToLocal={saveToLocal}/>}
-                       // footerContainerStyle={{ width: '100%' }}
-                       // renderFooter={this.renderImageFooter}
-          />
-        </Modal>
+        {/*<Modal*/}
+        {/*  visible={ this.state.modalVisible }*/}
+        {/*  transparent={ true }*/}
+        {/*  onRequestClose={ () => this.setState({ modalVisible: false }) }>*/}
+        {/*  <ImageViewer imageUrls={ imgViewerArr }*/}
+        {/*               index={ this.state.index || 0 }*/}
+        {/*               menuContext={ { saveToLocal: "保存到本地相册", cancel: "取消" } }*/}
+        {/*               onClick={ this._closeModal }*/}
+        {/*               onSave={ this._saveImg }*/}
+        {/*               enableSwipeDown={ true }*/}
+        {/*               onSwipeDown={ this._closeModal }*/}
+        {/*               loadingRender={this._renderLoading}*/}
+        {/*               // menus={({cancel,saveToLocal})=><Menus cancel={cancel} saveToLocal={saveToLocal}/>}*/}
+        {/*               // footerContainerStyle={{ width: '100%' }}*/}
+        {/*               // renderFooter={this.renderImageFooter}*/}
+        {/*  />*/}
+        {/*</Modal>*/}
       </View>
     );
   }
 }
 
 
-export default MessageImage;
+export default connect(
+  (state) => ({
+    imgViewerArr: state.imageViewer.imgViewerArr,
+  }),
+  (dispatch) => ({
+    showImgViewer: (imgViewObj: ImageViewerActionTypes) => dispatch(imageViewerAction.showImgViewer(imgViewObj)),
+  })
+)(MessageImage);

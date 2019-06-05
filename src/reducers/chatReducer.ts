@@ -239,7 +239,8 @@ const initialState: ChatTypes = {
   limit: 20,
 };
 
-export default function chat(state = initialState, action: { type: any; messageObj: MessageTypes; messageId: number; isRefresh: boolean; isEnd: boolean; }) {
+export default function chat(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case types.ADD_CHAT_MESSAGE:
       return {

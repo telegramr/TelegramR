@@ -7,18 +7,18 @@ import {
   Platform,
   BackHandler,
   FlatList,
-  ListRenderItemInfo
+  ListRenderItemInfo,
 } from "react-native";
+import { connect } from "react-redux";
+import { SafeAreaView, NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import S from "../public/style";
 import Message from "../components/Message";
 import { TextTool, Avatar, Btn, Label, Badge, StatusBars, TouchableCross } from "../components";
-import { connect } from "react-redux";
-import {MessageTypes} from "../types";
+import { MessageTypes } from "../types";
 import { AppState } from "../store/ConfigureStore";
 import * as loginAction from "../actions/loginAction";
 import * as messageMediaAction from "../actions/messageMediaAction";
 import * as chatAction from "../actions/chatAction";
-import { SafeAreaView, NavigationScreenProp, NavigationState, NavigationParams } from "react-navigation";
 import { screen, color } from "../utils";
 import Svg from "../lib/svg";
 import MessageContainer from "../components/MessageMedia";
@@ -43,6 +43,7 @@ interface State {
 
 class Chat extends Component<Props, State> {
   private flatList: any;
+
   constructor(props: Props) {
     super(props);
     this.state = {

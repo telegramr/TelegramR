@@ -6,7 +6,7 @@ import {
   Alert
 } from "react-native";
 import { connect } from "react-redux";
-import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob, {RNFetchBlobStat} from "rn-fetch-blob";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { TouchableCross, Btn, StatusBars } from "../../components";
 import { screen, util, color } from "../../utils";
@@ -18,15 +18,6 @@ interface Props {
   navigation: NavigationScreenProp<NavigationState>;
 }
 
-interface RNFetchBlobStat {
-  filename: string;
-  // folder of the file or the folder itself
-  path: string;
-  // size, in bytes
-  size: number,
-  type: "file" | "directory",
-  lastModified: number
-}
 
 interface State {
   fileLists: RNFetchBlobStat[];
@@ -51,9 +42,10 @@ class FileSystem extends Component<Props, State> {
       path = RNFetchBlob.fs.dirs.SDCardDir;
     }
     const re = /^\./g;
-
+    console.log(path)
     RNFetchBlob.fs.lstat(path)
       .then((fileLists: RNFetchBlobStat[]) => {
+        console.log(fileLists)
         // 过滤隐藏文件并排序
         fileLists = fileLists.filter(i => !i.filename.match(re));
         this.setState({

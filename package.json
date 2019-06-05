@@ -1,5 +1,5 @@
 {
-  "name": "TelegramR",
+  "name": "telegramr",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,7 +13,8 @@
     "ios-bundle": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.ios.jsbundle --assets-dest ./ios/bundle",
     "reset-cache": "react-native start --reset-cache",
     "fix-watchman": "watchman watch-del-all && rm -rf node_modules && npm install && rm -fr $TMPDIR/react-*",
-    "build-svg": "node ./src/static/svg.js"
+    "build-svg": "node ./src/static/svg.js",
+    "adb-log": "adb logcat | find 'com.telegramr' > D:/telegramr_log.txt"
   },
   "dependencies": {
     "dayjs": "^1.8.13",

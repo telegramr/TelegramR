@@ -67,6 +67,15 @@ export interface LocationContentTypes {
   latitude: number;
 }
 
+/**
+ * https://core.telegram.org/bots/api#location
+ * */
+export interface FileContentTypes {
+  hash: string;
+  uri: string;
+  size: number;
+}
+
 export interface MessageContentTypes {
   text?: string;
   entities?: EntityContentTypes;
@@ -77,11 +86,12 @@ export interface MessageContentTypes {
   video?: VideoContentTypes;
   voice?: VoiceContentTypes;
   geo?: LocationContentTypes;
+  file?: FileContentTypes;
 }
 
 /**
  * https://core.telegram.org/type/MessageMedia
- * @type MediaTypes  text | entity | img | sticker| photo | video | map | document | audio | voice
+ * @type MediaTypes  text | entity | img | sticker| photo | video | map | document | audio | voice | file
  * */
 export type MediaTypes =
   "text"
@@ -94,6 +104,7 @@ export type MediaTypes =
   | "document"
   | "audio"
   | "voice"
+  | "file"
 
 /**
  * https://core.telegram.org/constructor/message
@@ -133,4 +144,21 @@ export interface ChatTypes {
   maxId: number;
   readId: number;
   limit?: number;
+}
+
+export interface ImgViewerArrTypes {
+  url: string;
+  width?: number;
+  height?: number;
+  // Optional, if you know the image size, you can set the optimization performance
+  // You can pass props to <Image />.
+  props?: {
+    // headers: ...
+  }
+}
+
+export interface ImgViewerTypes {
+  showImageViewer: boolean;
+  index: number;
+  imgViewerArr: ImgViewerArrTypes[];
 }
