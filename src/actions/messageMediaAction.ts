@@ -39,12 +39,14 @@ export function sendMessage() {
 export function sendMessageMedia(messageObj, mediaType) {
   return (dispatch) => {
     // TODO: 模拟
-    const result = fetch('https://www.baidu.com/')
-      .then((res) => {
-        dispatch(sendMessageMediaSuccess(messageObj, mediaType));
-      }).catch((error) => {
-        dispatch(sendError(error));
-      })
+    dispatch(sendMessageMediaSuccess(messageObj, mediaType));
+
+    // const result = fetch('https://www.baidu.com/')
+    //   .then((res) => {
+    //     dispatch(sendMessageMediaSuccess(messageObj, mediaType));
+    //   }).catch((error) => {
+    //     dispatch(sendError(error));
+    //   })
   }
 }
 

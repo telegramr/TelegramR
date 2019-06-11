@@ -150,6 +150,7 @@ class MessageMediaPhoto extends Component<Props, State> {
   renderPicItem = ({ item }: ListRenderItemInfo<Photos>) => {
     return (
       <TouchableOpacity onPress={ () => this.selectPhoto(item.uri, item.width, item.height, item.hash) }
+                        activeOpacity={0.8}
                         style={ [styles.imgItem, S.flexCenter] }>
         <ImageAuto height={ 136 } uri={ item.uri }/>
         { this.renderCheckNum(item.uri) }

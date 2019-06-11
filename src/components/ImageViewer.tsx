@@ -33,7 +33,6 @@ class ImageViewerC extends Component<Props, State> {
 
   render() {
     const { showImageViewer, imgViewerArr, index, closeImgViewer } = this.props;
-    console.log(showImageViewer)
     if(showImageViewer) {
       console.log(showImageViewer, imgViewerArr, index, closeImgViewer)
     }

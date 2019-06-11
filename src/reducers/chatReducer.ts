@@ -14,6 +14,32 @@ const initialState: ChatTypes = {
       uname: "Beats0",
       avatar: "https://avatars0.githubusercontent.com/u/29087203?s=460&v=4",
       message: {
+        voice: { uri: "https://lain.bgm.tv/pic/cover/l/f2/9f/28900_PB3pC.jpg", hash: "", duration: 60, size: 1024 },
+      },
+      date: 1559377920312,
+      type: "voice"
+    },
+    {
+      id: 1,
+      from_id: 1,
+      to_id: 2,
+      out: true,
+      uname: "Beats0",
+      avatar: "https://avatars0.githubusercontent.com/u/29087203?s=460&v=4",
+      message: {
+        file: { uri: "https://lain.bgm.tv/pic/cover/l/f2/9f/28900_PB3pC.jpg", hash: "", size: 1024, fileName: '1.png' },
+      },
+      date: 1559377920312,
+      type: "file"
+    },
+    {
+      id: 1,
+      from_id: 1,
+      to_id: 2,
+      out: true,
+      uname: "Beats0",
+      avatar: "https://avatars0.githubusercontent.com/u/29087203?s=460&v=4",
+      message: {
         img: [
           { uri: "https://lain.bgm.tv/pic/cover/l/f2/9f/28900_PB3pC.jpg", hash: "", width: 200, height: 10, size: 1024 },
           { uri: "https://lain.bgm.tv/pic/cover/l/ee/2a/19696_23iP3.jpg", hash: "", width: 200, height: 10, size: 1024 },

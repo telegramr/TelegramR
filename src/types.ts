@@ -74,6 +74,7 @@ export interface FileContentTypes {
   hash: string;
   uri: string;
   size: number;
+  fileName: string;
 }
 
 export interface MessageContentTypes {

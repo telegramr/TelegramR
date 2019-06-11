@@ -3,25 +3,32 @@ import {
   View,
   StyleSheet,
   FlatList,
-  Alert
+  ListRenderItemInfo,
+  Alert,
+  PermissionsAndroid,
 } from "react-native";
 import { connect } from "react-redux";
-import RNFetchBlob, {RNFetchBlobStat} from "rn-fetch-blob";
+import RNFetchBlob, { RNFetchBlobStat } from "rn-fetch-blob";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { TouchableCross, Btn, StatusBars } from "../../components";
 import { screen, util, color } from "../../utils";
 import S from "../../public/style";
 import Svg from "../../lib/svg";
 import { H2, H3, H4 } from "../../components/TextTool";
+import * as messageMediaAction from "../../actions/messageMediaAction";
+import { MessageContentTypes } from "../../types";
+
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
+  sendMessageMedia: typeof messageMediaAction.sendMessageMedia
 }
 
 
 interface State {
+  dirName: string;
   fileLists: RNFetchBlobStat[];
-  selectedFileLists?: string[];
+  selectedFileLists: RNFetchBlobStat[];
 }
 
 
@@ -29,23 +36,53 @@ class FileSystem extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      dirName: "",
       fileLists: [],
       selectedFileLists: []
     };
   }
 
+  requestReadPermission = async () => {
+    const isChecked = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+    console.log(isChecked);
+    if (isChecked) return;
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: "申请文件读取权限",
+          message: "获取读取您的文件系统",
+          buttonNeutral: "稍后询问",
+          buttonNegative: "不允许",
+          buttonPositive: "允许",
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("允许");
+      } else {
+        console.log("不允许");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   componentDidMount() {
-    let path = "";
+    this.requestReadPermission();
+    let path = "", dirName = "";
     if (this.props.navigation.state.params) {
       path = this.props.navigation.state.params.path;
+      dirName = this.props.navigation.state.params.dirName;
     } else {
       path = RNFetchBlob.fs.dirs.SDCardDir;
     }
+    this.setState({
+      dirName
+    });
     const re = /^\./g;
-    console.log(path)
+    console.log(path);
     RNFetchBlob.fs.lstat(path)
       .then((fileLists: RNFetchBlobStat[]) => {
-        console.log(fileLists)
         // 过滤隐藏文件并排序
         fileLists = fileLists.filter(i => !i.filename.match(re));
         this.setState({
@@ -82,17 +119,18 @@ class FileSystem extends Component<Props, State> {
     // });
   }
 
-  handlePushTo = (path: string) => {
+  handlePushTo = (path: string, dirName: string) => {
     this.handleClear();
-    this.props.navigation.push("FileSystem", { path });
+    this.props.navigation.push("FileSystem", { path, dirName });
   };
 
-  handleSelectFile = (path: string) => {
+  handleSelectFile = (file: RNFetchBlobStat) => {
     let { selectedFileLists } = this.state;
-    if (selectedFileLists.includes(path)) {
-      selectedFileLists = selectedFileLists.filter(i => i !== path);
+    const pathArr: string[] = selectedFileLists.map(i => i.path);
+    if (pathArr.includes(file.path)) {
+      selectedFileLists = selectedFileLists.filter(i => i.path !== file.path);
     } else {
-      selectedFileLists.push(path);
+      selectedFileLists.push(file);
     }
     this.setState({
       selectedFileLists
@@ -101,7 +139,7 @@ class FileSystem extends Component<Props, State> {
 
   computedIsSelected = (path: string): boolean => {
     const { selectedFileLists } = this.state;
-    return selectedFileLists.includes(path);
+    return selectedFileLists.some(i => i.path === path);
   };
 
   handleClear = () => {
@@ -112,12 +150,27 @@ class FileSystem extends Component<Props, State> {
   };
 
   handleUploadFile = () => {
+    const { sendMessageMedia } = this.props;
     const { selectedFileLists } = this.state;
-    Alert.alert("uploadFile", JSON.stringify(selectedFileLists));
+    for (let i = 0; i < selectedFileLists.length; i++) {
+      const fileObj = {
+        file: {
+          ...selectedFileLists[i],
+          fileName: selectedFileLists[i].filename,
+          hash: ''
+        }
+      }
+      console.log(fileObj)
+      sendMessageMedia(fileObj);
+    }
+    this.props.navigation.navigate('Chat')
+    // const { sendMessageMedia } = this.props;
+    // sendMessageMedia()
+    // Alert.alert("uploadFile", JSON.stringify(selectedFileLists));
   };
 
   renderHeaderBar = () => {
-    const { selectedFileLists } = this.state;
+    const { dirName, selectedFileLists } = this.state;
     if (selectedFileLists.length) {
       return (
         <View style={ [S.flexSB, S.flexAIC, S.pd8, {
@@ -150,7 +203,7 @@ class FileSystem extends Component<Props, State> {
           </Btn>
         </View>
         <View style={ [S.flexCenter, { position: "absolute", left: 50 }] }>
-          <H2 title={ "android" } color={ "#fff" }/>
+          <H2 title={ dirName || "/" } color={ "#fff" }/>
         </View>
       </View>
     );
@@ -172,10 +225,10 @@ class FileSystem extends Component<Props, State> {
     );
   };
 
-  renderChatItem = ({ item }) => {
+  renderChatItem = ({ item }: ListRenderItemInfo<RNFetchBlobStat>) => {
     if (item.type === "directory") {
       return (
-        <TouchableCross feed onPress={ () => this.handlePushTo(item.path) }>
+        <TouchableCross feed onPress={ () => this.handlePushTo(item.path, item.filename) }>
           <View style={ [S.flexRow, styles.cell] }>
             <View style={ [S.flexCenter, styles.roundBg] }>
               <Svg icon="folder-fill" size="22" color={ "#999" }/>
@@ -189,7 +242,7 @@ class FileSystem extends Component<Props, State> {
       );
     }
     return (
-      <TouchableCross feed onPress={ () => this.handleSelectFile(item.path) }>
+      <TouchableCross feed onPress={ () => this.handleSelectFile(item) }>
         <View style={ [S.flexRow, styles.cell] }>
           <View style={ [S.flexCenter, styles.roundBg] }>
             <Svg icon="file-fill" size="22" color={ "#999" }/>
@@ -216,7 +269,7 @@ class FileSystem extends Component<Props, State> {
     const { fileLists } = this.state;
     return (
       <View style={ styles.container }>
-        <StatusBars backgroundColor={color.theme} />
+        <StatusBars backgroundColor={ color.theme }/>
         { this.renderHeaderBar() }
         <FlatList<RNFetchBlobStat>
           data={ fileLists }
@@ -225,7 +278,7 @@ class FileSystem extends Component<Props, State> {
           showsHorizontalScrollIndicator={ false }
           removeClippedSubviews={ true }
           ListHeaderComponent={ this.renderHeader() }
-          renderItem={ (item) => this.renderChatItem(item) }
+          renderItem={ this.renderChatItem }
           onEndReachedThreshold={ 0.5 }
         />
       </View>
@@ -267,4 +320,8 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
+  () => ({}),
+  (dispatch) => ({
+    sendMessageMedia: (messageObj: MessageContentTypes, mediaType = "file") => dispatch(messageMediaAction.sendMessageMedia(messageObj, mediaType))
+  })
 )(FileSystem);

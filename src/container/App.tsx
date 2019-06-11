@@ -87,7 +87,7 @@ const AppContainer = createStackNavigator({
     gesturesEnabled: true,
   },
   headerMode: "none",
-  initialRouteName: "DrawerMenuStack",
+  initialRouteName: "Chat",
   mode: "card",
 });
 

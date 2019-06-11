@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import S from '../../public/style'
 import Svg from "../../lib/svg";
-import {color} from '../../utils'
+import { color, screen } from "../../utils";
 
 interface Props {
 
@@ -34,13 +34,38 @@ class MessageMediaAudio extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
   }
+
+  onTouchStart = () => {
+
+  }
+
+  onTouchOver = () => {
+
+  }
+
+  onTouchMovee = () => {
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.Text}>按住说话</Text>
-        <TouchableOpacity style={[S.flexCenter, styles.audioContainer]}>
-          <Svg icon="audio" size="40" color={color.white}/>
-        </TouchableOpacity>
+        <View style={styles.audioMainContainer}>
+          <TouchableOpacity style={[S.flexCenter, styles.audioActionContainer]}>
+            <Svg icon="audio" size="40" color={color.white}/>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.audioMainContainer}>
+          <Text style={styles.Text}>按住说话</Text>
+          <TouchableOpacity activeOpacity={0.5} style={[S.flexCenter, styles.audioContainer]}>
+            <Svg icon="audio" size="40" color={color.white}/>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.audioMainContainer}>
+          <TouchableOpacity style={[S.flexCenter, styles.audioActionContainer]}>
+            <Svg icon="audio" size="40" color={color.white}/>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -51,13 +76,19 @@ export default MessageMediaAudio
 const styles = StyleSheet.create({
   container: {
     height: 180,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  audioMainContainer: {
+    height: 180,
     flexDirection: 'column',
     alignItems: 'center'
   },
   Text: {
-    marginTop: 5,
+    marginTop: 10,
     color: color.gray,
-    fontSize: 16
+    fontSize: 14
   },
   audioContainer: {
     width: 100,
@@ -65,5 +96,13 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 10,
     backgroundColor: color.blueLight
+  },
+  audioActionContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginTop: 45,
+    borderWidth: screen.onePixel,
+   borderColor: color.gray,
   }
 })

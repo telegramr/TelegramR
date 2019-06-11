@@ -8,6 +8,10 @@
 - [read](http://www.52im.net/thread-464-1-1.html)
 
 
+出于性能考虑, 不再维护， 转向Flutter了
+
+[Flutter版本](https://github.com/telegramr/TelegramR-Flutter)
+
 TODO:
 
  - 完善typescript lint, 类型检测

@@ -3,7 +3,8 @@ import { MessageContentTypes } from "../../types";
 import MessageText from "./MessageText";
 import MessageSticker from "./MessageSticker";
 import MessageImage from "./MessageImage";
-import MessageMediaFile from './MessageMediaFile'
+import MessageFile from "./MessageFile";
+import MessageVoice from "./MessageVoice";
 import { H4 } from "../TextTool";
 
 interface Props {
@@ -22,7 +23,7 @@ class Message extends Component<Props, State> {
   }
 
   shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): boolean {
-    return false
+    return false;
   }
 
   render() {
@@ -35,7 +36,9 @@ class Message extends Component<Props, State> {
       case "img":
         return <MessageImage img={ content.img } out={ out }/>;
       case "file":
-        return <MessageMediaFile file={ content.file } out={ out }/>;
+        return <MessageFile file={ content.file } out={ out }/>;
+      case "voice":
+        return <MessageVoice voice={ content.voice } out={ out }/>;
       default:
         return <H4 title={ "不支持此类消息" }/>;
     }

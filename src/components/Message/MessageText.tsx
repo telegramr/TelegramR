@@ -16,7 +16,6 @@ interface State {
 }
 
 class MessageText extends Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
   }
@@ -25,7 +24,7 @@ class MessageText extends Component<Props, State> {
     const { text, out } = this.props;
     // TODO: add url link...
     return (
-      <TouchableOpacity activeOpacity={ 0.8 }
+      <TouchableOpacity activeOpacity={ 0.9 }
                         style={ [S.pd10, out ? S.chatBubblesRight : S.chatBubblesLeft, S.shadow, {
                           backgroundColor: color.white,
                           maxWidth: screen.width - 120,
