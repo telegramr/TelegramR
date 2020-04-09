@@ -1,44 +1,34 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import SvgUri from 'react-native-svg-uri';
 import svgs from '../static/svgs';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-class SvgProperties {
-
-}
-
-export default class Svg extends Component<SvgProperties, void> {
+export default class Svg extends Component {
   static propTypes = {
-    icon: PropTypes.string.isRequired,
-    size: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]),
-  }
+    style: PropTypes.object,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    svgXmlData: PropTypes.string,
+    source: PropTypes.any,
+    fill: PropTypes.string,
+  };
 
   render() {
-    const {
-      icon,
-      color,
-      size,
-      style,
-    } = this.props;
+    const {icon, fill, size, style} = this.props;
     let svgXmlData = svgs[icon];
 
     if (!svgXmlData) {
-      let err_msg = `没有"${ this.props.icon }"这个icon，请下载最新的icon并 npm run build-svg`;
+      let err_msg = `svg icon ${this.props.icon} not found`;
       throw new Error(err_msg);
     }
     return (
       <SvgUri
-        width={ size }
-        height={ size }
-        svgXmlData={ svgXmlData }
-        fill={ color }
-        style={ style }
+        width={size}
+        height={size}
+        svgXmlData={svgXmlData}
+        fill={fill}
+        style={style}
       />
-    )
+    );
   }
 }

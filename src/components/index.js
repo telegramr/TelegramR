@@ -1,22 +1,7 @@
-import Avatar from './Avatar'
-import Badge from './Badge'
-import Btn from './Btn'
-import ImageAuto from './ImageAuto'
-import ImageStickerAuto from './ImageStickerAuto'
-import Label from './Label'
-import * as TextTool from './TextTool';
-import Separator from './Separator'
-import TouchableCross from './TouchableCross'
-import StatusBars from './StatusBars'
-export {
-  Avatar,
-  Badge,
-  Btn,
-  ImageAuto,
-  ImageStickerAuto,
-  Label,
-  TextTool,
-  Separator,
-  TouchableCross,
-  StatusBars
-}
+import Btn from './Btn';
+import StatusBars from './StatusBars';
+import TouchableCross from './TouchableCross';
+import Badge from './Badge';
+import ImageAuto from './ImageAuto';
+
+export {Btn, StatusBars, TouchableCross, Badge, ImageAuto};
